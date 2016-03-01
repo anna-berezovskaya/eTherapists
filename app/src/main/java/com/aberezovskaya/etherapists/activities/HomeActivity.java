@@ -1,9 +1,9 @@
 package com.aberezovskaya.etherapists.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.fragments.HomeFragment;
@@ -26,12 +26,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.Home
                     .commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     }
 
     @Override
     public void onFragmentClick() {
-        //start another activity
+        startActivity(new Intent(this, DashboardActivity.class));
     }
 }

@@ -2,15 +2,21 @@
 
     <style name="MyAppTheme" parent = "AppTheme"/>
 
+    <style name="AppCompatActionBarStyle" parent = "ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/actionBarBackround</item>
+    </style>
+
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@drawable/blurred_bg</item>
+        <item name="android:actionBarStyle">@style/AppCompatActionBarStyle</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
     </style>
 
 </resources>

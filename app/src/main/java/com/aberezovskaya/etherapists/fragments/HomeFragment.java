@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.aberezovskaya.etherapists.R;
 
@@ -20,7 +18,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         void onFragmentClick();
     }
 
-    private View mMainLayout;
 
     @Nullable
     @Override
@@ -31,8 +28,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mMainLayout = view.findViewById(R.id.main_layout);
-        mMainLayout.setOnClickListener(this);
+        view.findViewById(R.id.main_layout).setOnClickListener(this);
     }
 
     @Override
