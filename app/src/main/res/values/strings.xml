@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">eTherapists</string>
+    <string name="text_greeting_title">Are you stressed?</string>
+    <string name="text_greeting_message">Relaxing exercises and much more..</string>
 </resources>

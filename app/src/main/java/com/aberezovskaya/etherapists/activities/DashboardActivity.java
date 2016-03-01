@@ -1,10 +1,8 @@
 package com.aberezovskaya.etherapists.activities;
 
-import android.support.v7.app.AppCompatActivity;
-
 /**
- * Displays main application UI. Coaching and physical problem selection
- * fragments. Implements database interaction logic.
+ * The Main Activity of the application, containing
+ * tabs and most of the fragments
  */
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity {
 }
