@@ -9,4 +9,6 @@
     <color name="textColorSecondary">#FFFFFF</color>
     <color name="actionBarBackround">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+
+    <color name="rc_background">#80FFFFFF</color>
 </resources>
