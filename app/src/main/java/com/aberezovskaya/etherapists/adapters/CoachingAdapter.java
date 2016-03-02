@@ -13,25 +13,13 @@ import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
 
-public class CoachingAdapter extends RecyclerView.Adapter<CoachingAdapter.CoachingViewHolder> {
-
-    private Cursor mCursor;
-    private Context mContext;
+public class CoachingAdapter extends BaseRecyclerCursorAdapter<CoachingAdapter.CoachingViewHolder> {
 
     CoachingAdapter(Context context){
-        mCursor = null;
-        mContext = context;
+        super(context);
     }
 
-    public Cursor swapCursor(Cursor cursor){
-        if (mCursor != null && !mCursor.isClosed()){
-            notifyItemRangeRemoved(0, mCursor.getCount());
-            mCursor.close();
-        }
-        mCursor = cursor;
-        notifyDataSetChanged();
-        return mCursor;
-    }
+
 
     @Override
     public CoachingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,13 +29,9 @@ public class CoachingAdapter extends RecyclerView.Adapter<CoachingAdapter.Coachi
 
     @Override
     public void onBindViewHolder(CoachingViewHolder holder, int position) {
-        
+
     }
 
-    @Override
-    public int getItemCount() {
-        return mCursor.getCount();
-    }
 
      static class CoachingViewHolder extends RecyclerView.ViewHolder{
 
