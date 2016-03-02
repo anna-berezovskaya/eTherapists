@@ -14,7 +14,7 @@ public class DataContract {
     /**
      * authority
      */
-    private static final String AUTHORITY = App.instance().getApplicationContext().getPackageName() + ".eTherapistsDataProvider";
+    public static final String AUTHORITY = App.instance().getApplicationContext().getPackageName() + ".eTherapistsDataProvider";
 
     /**
      * content uri

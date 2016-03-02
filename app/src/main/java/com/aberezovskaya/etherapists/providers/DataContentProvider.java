@@ -1,26 +1,123 @@
 package com.aberezovskaya.etherapists.providers;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.aberezovskaya.etherapists.App;
 
 
 /**
  * Content Provider to manage the database
  */
 public class DataContentProvider extends ContentProvider{
+
+    /** class name for logging */
+    private static final String TAG = DataContentProvider.class.getSimpleName();
+
+    /** uri matcher */
+    private static final UriMatcher URI_MATCHER;
+
+    /** uri matcher codes */
+    private static final int BODY_PROBLEM_CODE = 1;
+    private static final int BODY_PROBLEM_BY_ID_CODE = 2;
+    private static final int EXERCISE_CODE = 3;
+    private static final int EXERCISE_BY_ID_CODE = 4;
+    private static final int TRAINING_CODE = 5;
+    private static final int TRAINING_BY_ID_CODE = 6;
+
+    /** uri matcher initialization */
+    static {
+
+        URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.BodyProblem.CONTENT_PATH, BODY_PROBLEM_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.BodyProblem.CONTENT_PATH + "/#", BODY_PROBLEM_BY_ID_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.Exercise.CONTENT_PATH, EXERCISE_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.Exercise.CONTENT_PATH + "/#", EXERCISE_BY_ID_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.Training.CONTENT_PATH, TRAINING_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.Training.CONTENT_PATH + "/#", TRAINING_BY_ID_CODE);
+    }
+
     @Override
     public boolean onCreate() {
-        return false;
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getReadableDatabase();
+        final int code = URI_MATCHER.match(uri);
+        Cursor cursor;
+        switch (code) {
+
+            case BODY_PROBLEM_CODE: {
+
+                cursor = db.query(DataContract.Tables.BODY_PROBLEM, projection, selection, selectionArgs, null, null,
+                        sortOrder);
+            }
+            break;
+
+            case BODY_PROBLEM_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                cursor = db.query(DataContract.Tables.BODY_PROBLEM, projection, DataContract.BodyProblem.COLUMN_ID + " = ?",
+                        new String[] {id}, null, null, sortOrder);
+            }
+            break;
+
+            case EXERCISE_CODE: {
+
+                cursor = db.query(DataContract.Tables.EXERCISE, projection,selection, selectionArgs, null, null, sortOrder);
+            }
+            break;
+            case EXERCISE_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                cursor = db.query(DataContract.Tables.EXERCISE, projection, DataContract.Exercise.COLUMN_ID + " = ?",
+                        new String[] {id}, null, null, sortOrder);
+            }
+            break;
+            case TRAINING_CODE: {
+
+                cursor = db.query(DataContract.Tables.TRAINING, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+            break;
+            case TRAINING_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                cursor = db.query(DataContract.Tables.TRAINING, projection, DataContract.Training.COLUMN_ID + " = ?",
+                        new String[] {id}, null, null, sortOrder);
+            }
+            break;
+            default: {
+
+                Log.d(TAG, "query(): unsupported uri " + uri);
+                return null;
+            }
+        }
+
+        if (null != cursor) {
+
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
+
+        return cursor;
     }
 
     @Nullable
@@ -32,16 +129,237 @@ public class DataContentProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final ContentResolver resolver = getContext().getContentResolver();
+        final int code = URI_MATCHER.match(uri);
+        long rowId;
+
+        switch (code) {
+
+            case BODY_PROBLEM_CODE: {
+
+                rowId = db.insert(DataContract.Tables.BODY_PROBLEM, null, values);
+
+                if (-1 != rowId) {
+
+                    Uri insertedUri = ContentUris.withAppendedId(DataContract.BodyProblem.CONTENT_URI, rowId);
+                    resolver.notifyChange(insertedUri, null);
+                    return insertedUri;
+                }
+
+                throw new SQLException("Failed to insert row into " + uri);
+            }
+
+            case EXERCISE_CODE: {
+                rowId = db.insert(DataContract.Tables.EXERCISE, null, values);
+
+                if (-1 != rowId) {
+
+                    Uri insertedUri = ContentUris.withAppendedId(DataContract.Exercise.CONTENT_URI, rowId);
+                    resolver.notifyChange(insertedUri, null);
+                    return insertedUri;
+                }
+
+                throw new SQLException("Failed to insert row into " + uri);
+            }
+
+            case TRAINING_CODE: {
+                rowId = db.insert(DataContract.Tables.TRAINING, null, values);
+
+                if (-1 != rowId) {
+
+                    Uri insertedUri = ContentUris.withAppendedId(DataContract.Training.CONTENT_URI, rowId);
+                    resolver.notifyChange(insertedUri, null);
+                    return insertedUri;
+                }
+
+                throw new SQLException("Failed to insert row into " + uri);
+            }
+
+            default: {
+
+                Log.d(TAG, "insert(): unsupported uri " + uri);
+            }
+        }
+
         return null;
     }
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final ContentResolver resolver = getContext().getContentResolver();
+        final int code = URI_MATCHER.match(uri);
+        int count;
+
+        switch(code) {
+
+            case BODY_PROBLEM_CODE: {
+
+                count = db.delete(DataContract.Tables.BODY_PROBLEM, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.BodyProblem.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case BODY_PROBLEM_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.delete(DataContract.Tables.BODY_PROBLEM, DataContract.BodyProblem.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.BodyProblem.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+            case EXERCISE_CODE: {
+
+                count = db.delete(DataContract.Tables.EXERCISE, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Exercise.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case EXERCISE_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.delete(DataContract.Tables.EXERCISE, DataContract.Exercise.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Exercise.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+            case TRAINING_CODE: {
+
+                count = db.delete(DataContract.Tables.TRAINING, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Training.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case TRAINING_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.delete(DataContract.Tables.TRAINING, DataContract.Training.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Training.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+
+            default: {
+
+                throw new IllegalArgumentException("delete(): unsupported uri " + uri);
+            }
+        }
+
+        return count;
     }
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final ContentResolver resolver = getContext().getContentResolver();
+        final int code = URI_MATCHER.match(uri);
+        int count;
+
+        switch(code) {
+
+            case BODY_PROBLEM_CODE: {
+
+                count = db.update(DataContract.Tables.BODY_PROBLEM, values, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.BodyProblem.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case BODY_PROBLEM_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.update(DataContract.Tables.BODY_PROBLEM, values, DataContract.BodyProblem.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.BodyProblem.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+
+            case EXERCISE_CODE: {
+
+                count = db.update(DataContract.Tables.EXERCISE, values, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Exercise.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case EXERCISE_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.update(DataContract.Tables.EXERCISE, values, DataContract.Exercise.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Exercise.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+
+            case TRAINING_CODE: {
+
+                count = db.update(DataContract.Tables.TRAINING, values, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Training.CONTENT_URI, null);
+                }
+            }
+            break;
+
+            case TRAINING_BY_ID_CODE: {
+
+                String id = uri.getLastPathSegment();
+                count = db.update(DataContract.Tables.TRAINING, values, DataContract.Training.COLUMN_ID + " = ?", new String[] {id});
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.Training.CONTENT_URI, null);
+                    resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+
+            default: {
+
+                throw new IllegalArgumentException("update(): unsupported uri " + uri);
+            }
+        }
+
+        return count;
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.aberezovskaya.etherapists.App;
+
 /**
  *  SQLiteOpenHelper class to manage
  *  database creation
@@ -20,17 +22,73 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
-    public DataSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    /*
+	 * consts
+	 */
+    private final static int DB_VERSION = 1;
+    private final static String DB_NAME = "eTherapists_data.db";
+
+    private DataSQLiteOpenHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
+
+    /*
+     * Holder class, for implement
+       * lazy-loaded singleton design pattern
+     */
+    private static class LazyHolder {
+        private static final DataSQLiteOpenHelper sInstance = new DataSQLiteOpenHelper(App.instance().getApplicationContext());
+    }
+
+
+    /**
+     * automatically thread-safe
+     * @param context
+     * @return
+     */
+    public static DataSQLiteOpenHelper instance(Context context) {
+        return LazyHolder.sInstance;
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // BodyProblem table
+        db.execSQL("CREATE TABLE " + DataContract.Tables.BODY_PROBLEM + " ( " +
+                DataContract.BodyProblem.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.BodyProblem.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
+                DataContract.BodyProblem.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
+                DataContract.BodyProblem.COLUMN_BODY_PART + " TEXT NOT NULL, " +
+                DataContract.BodyProblem.COLUMN_DESCRIPTION + " TEXT, " +
+                DataContract.BodyProblem.COLUMN_INTENSITY + " INTEGER NOT NULL" +
+                ");");
 
+        //Exercise table
+        db.execSQL("CREATE TABLE " + DataContract.Tables.EXERCISE + " ( " +
+                DataContract.Exercise.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.Exercise.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
+                DataContract.Exercise.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
+                DataContract.Exercise.COLUMN_TITLE + " TEXT NOT NULL, " +
+                DataContract.Exercise.COLUMN_IMAGE + " TEXT NOT NULL, " +
+                DataContract.Exercise.COLUMN_DURATION + " INTEGER" +
+                ");");
+
+        //Trainings table
+        db.execSQL("CREATE TABLE " + DataContract.Tables.TRAINING + " ( " +
+                DataContract.Training.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.Training.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
+                DataContract.Training.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
+                DataContract.Training.COLUMN_EXERCISE_ID + " INTEGER NOT NULL, " +
+                DataContract.Training.COLUMN_PROBLEM_ID + " INTEGER NOT NULL" +
+                ");");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.BODY_PROBLEM);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.EXERCISE);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.TRAINING);
 
+        onCreate(db);
     }
 }
