@@ -53,6 +53,23 @@ public class DataContentProvider extends ContentProvider{
                 DataContract.Training.CONTENT_PATH + "/#", TRAINING_BY_ID_CODE);
     }
 
+    private static final String SQL_TRAININGS = "(SELECT " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_ID + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_INTENSITY + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_TITLE + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_IMAGE + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_DURATION + ", " +
+            "FROM " +DataContract.Tables.TRAINING + " " +
+            "LEFT JOIN " +DataContract.Tables.BODY_PROBLEM + " ON " +DataContract.Tables.BODY_PROBLEM + "."
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " " +
+            "LEFT JOIN " + DataContract.Tables.EXERCISE + " ON " + DataContract.Tables.EXERCISE + "." + DataContract.Exercise.COLUMN_ID + " = " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_EXERCISE_ID +
+            ")";
+
     @Override
     public boolean onCreate() {
         return true;
@@ -95,7 +112,7 @@ public class DataContentProvider extends ContentProvider{
             break;
             case TRAINING_CODE: {
 
-                cursor = db.query(DataContract.Tables.TRAINING, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = db.query(SQL_TRAININGS, projection, selection, selectionArgs, null, null, sortOrder);
             }
             break;
             case TRAINING_BY_ID_CODE: {
