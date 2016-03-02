@@ -17,6 +17,11 @@
         </activity>
 
         <activity android:name=".activities.DashboardActivity"/>
+        
+        <provider
+            android:authorities="com.aberezovskaya.etherapists.eTherapistsDataProvider"
+            android:name=".providers.DataContentProvider"
+            android:exported="false"/>
 
     </application>
 

@@ -10,12 +10,14 @@ import android.support.v7.widget.Toolbar;
 
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.fragments.BaseFragment;
+import com.aberezovskaya.etherapists.fragments.CoachingFragment;
+import com.aberezovskaya.etherapists.fragments.PhysicalProblemsFragment;
 
 /**
  * The Main Activity of the application, containing
  * tabs and controls fragments
  */
-public class DashboardActivity extends AppCompatActivity{
+public class DashboardActivity extends AppCompatActivity {
 
 
     /**
@@ -31,26 +33,26 @@ public class DashboardActivity extends AppCompatActivity{
      * makes tab selection and UI showing process clear and
      * easy to support in future
      */
-    private enum Fragments{
-        TAB_COACHING("tab_coaching"){
+    private enum Fragments {
+        TAB_COACHING("tab_coaching") {
+            @Override
+            BaseFragment instance() {
+                return new CoachingFragment();
+            }
+        },
+        TAB_BODY("tab_body") {
+            @Override
+            BaseFragment instance() {
+                return new PhysicalProblemsFragment();
+            }
+        },
+        TAB_MENTAL("tab_mental") {
             @Override
             BaseFragment instance() {
                 return null;
             }
         },
-        TAB_BODY("tab_body"){
-            @Override
-            BaseFragment instance() {
-                return null;
-            }
-        },
-        TAB_MENTAL("tab_mental"){
-            @Override
-            BaseFragment instance() {
-                return null;
-            }
-        },
-        TAB_SCORES("tab_scores"){
+        TAB_SCORES("tab_scores") {
             @Override
             BaseFragment instance() {
                 return null;
@@ -60,7 +62,7 @@ public class DashboardActivity extends AppCompatActivity{
 
         private String mTag;
 
-        Fragments(String tag){
+        Fragments(String tag) {
             mTag = tag;
         }
 
@@ -82,12 +84,12 @@ public class DashboardActivity extends AppCompatActivity{
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        mTabLayout = (TabLayout)findViewById(R.id.tabs);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         setupTabs();
     }
 
-    private void setupTabs(){
+    private void setupTabs() {
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.play).setTag(Fragments.TAB_COACHING), true);
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.body).setTag(Fragments.TAB_BODY));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
@@ -98,8 +100,8 @@ public class DashboardActivity extends AppCompatActivity{
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getTag() != null &&
-                        tab.getTag() instanceof  Fragments &&
-                        !tab.isSelected()) {
+                        tab.getTag() instanceof Fragments &&
+                        ((Fragments) tab.getTag()).instance() != null) {
                     replaceFragment(((Fragments) tab.getTag()).instance());
                 }
             }

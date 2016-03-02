@@ -1,10 +1,14 @@
 package com.aberezovskaya.etherapists.providers;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.aberezovskaya.etherapists.App;
+import com.aberezovskaya.etherapists.Config;
+import com.aberezovskaya.etherapists.daos.BaseEntity;
+import com.aberezovskaya.etherapists.daos.BodyProblem;
 
 /**
  *  SQLiteOpenHelper class to manage
@@ -81,6 +85,15 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.Training.COLUMN_EXERCISE_ID + " INTEGER NOT NULL, " +
                 DataContract.Training.COLUMN_PROBLEM_ID + " INTEGER NOT NULL" +
                 ");");
+
+
+        ContentValues cv = new ContentValues();
+        for(BodyProblem problem: Config.PREDEFINED_BODY_PROBLEM) {
+
+            cv.clear();
+            BaseEntity.prepareForInsert(problem.toContentValues(cv));
+            db.insert(DataContract.Tables.BODY_PROBLEM, null, cv);
+        }
     }
 
     @Override

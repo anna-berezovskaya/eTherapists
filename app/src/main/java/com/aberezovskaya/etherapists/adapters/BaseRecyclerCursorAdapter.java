@@ -22,11 +22,16 @@ public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHold
         }
         mCursor = cursor;
         notifyDataSetChanged();
+        mCursor.moveToFirst();
         return mCursor;
     }
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        if (mCursor != null && !mCursor.isClosed()) {
+            return mCursor.getCount();
+        } else {
+            return 0;
+        }
     }
 }

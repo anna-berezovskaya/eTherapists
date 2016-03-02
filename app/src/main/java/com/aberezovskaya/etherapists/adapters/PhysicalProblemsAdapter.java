@@ -3,12 +3,14 @@ package com.aberezovskaya.etherapists.adapters;
 import android.content.Context;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.daos.BodyProblem;
 
 
 public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalProblemsAdapter.PhysicalProblemsViewHolder> {
@@ -19,13 +21,23 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
 
     @Override
     public PhysicalProblemsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_rc_exercises, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_rc_problem, parent, false);
         return new PhysicalProblemsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PhysicalProblemsViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
+        BodyProblem problem = new BodyProblem().fromCursor(mCursor);
+        if (!TextUtils.isEmpty(problem.getBodyPart())){
+            holder.mProblemTitle.setText(problem.getBodyPart());
+        }
 
+        if (!TextUtils.isEmpty(problem.getDescription())){
+            holder.mProblemDescription.setText(problem.getDescription());
+        }
+
+        holder.mProblemIntensity.setProgress(problem.getIntesity());
     }
 
     static class PhysicalProblemsViewHolder extends RecyclerView.ViewHolder{

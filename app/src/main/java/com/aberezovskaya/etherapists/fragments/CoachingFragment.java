@@ -12,7 +12,7 @@ import com.aberezovskaya.etherapists.R;
 /**
  * Fragment to display daily exercises
  */
-public class CoachingFragment extends Fragment {
+public class CoachingFragment extends BaseFragment {
 
     @Nullable
     @Override
