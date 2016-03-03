@@ -14,6 +14,8 @@
     <!-- Recycler View -->
     <dimen name="rc_elem_bcg_padding_horisontal">32dp</dimen>
     <dimen name="rc_seekbar_bcg_padding">16dp</dimen>
-    <dimen name="rc_item_spacing">16dp</dimen>
-    <dimen name="rc_bcg_padding_vertical">16dp</dimen>
+    <dimen name="rc_item_spacing">40dp</dimen>
+    <dimen name="rc_bcg_padding_vertical">24dp</dimen>
+    <dimen name="rc_separator_view_margins">16dp</dimen>
+    <dimen name="rc_separator_view_width">64dp</dimen>
 </resources>

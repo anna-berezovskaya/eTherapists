@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rc_bcg_drawable"
     android:orientation="vertical">
 
@@ -27,13 +27,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <View
+            android:id="@+id/rc_separator_view"
+            android:layout_width="@dimen/rc_separator_view_width"
+            android:layout_centerHorizontal="true"
+            android:layout_height="1dp"
+            android:background="@color/color_gray"
+            android:layout_below="@id/tv_problem_description"
+            android:layout_marginBottom="@dimen/rc_separator_view_margins"
+            android:layout_marginTop="@dimen/rc_separator_view_margins"/>
+
         <ImageButton
             android:background="?android:selectableItemBackground"
             android:layout_marginRight="@dimen/rc_elem_bcg_padding_horisontal"
             android:paddingTop="2dp"
             android:paddingRight="2dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignBaseline="@id/tv_problem_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/arrow"/>
@@ -44,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppCompatSeekBarStyle"
-            android:layout_below="@id/tv_problem_description"
+            android:layout_below="@id/rc_separator_view"
             android:padding="@dimen/rc_seekbar_bcg_padding"
             android:layout_centerInParent="true"
             android:progress="50" />
