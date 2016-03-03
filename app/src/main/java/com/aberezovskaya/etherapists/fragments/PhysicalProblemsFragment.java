@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.adapters.PhysicalProblemsAdapter;
 import com.aberezovskaya.etherapists.providers.DataContract;
+import com.aberezovskaya.etherapists.utils.VerticalSpacingItemDecorator;
 
 
 /**
@@ -45,6 +46,7 @@ public class PhysicalProblemsFragment extends BaseFragment implements LoaderMana
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
         mRecycler.setLayoutManager(manager);
+        mRecycler.addItemDecoration(new VerticalSpacingItemDecorator(getActivity(), (int)getResources().getDimension(R.dimen.rc_item_spacing)));
         mAdapter = new PhysicalProblemsAdapter(getActivity());
         mRecycler.setAdapter(mAdapter);
     }

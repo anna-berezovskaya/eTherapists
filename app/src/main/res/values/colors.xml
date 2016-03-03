@@ -10,5 +10,13 @@
     <color name="actionBarBackround">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
 
+    <!-- RecyclerView -->
     <color name="rc_background">#80FFFFFF</color>
+
+    <!-- SeekBar -->
+    <color name="seek_progress_color">#000000</color>
+    <color name="seek_bcg_color">#abacac</color>
+    <color name="seek_pane_color_red">#fb7449</color>
+    <color name="seek_pane_color_green">#cedc42</color>
+    <color name="seek_pane_color_blue">#5cbab2</color>
 </resources>

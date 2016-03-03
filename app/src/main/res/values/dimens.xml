@@ -10,4 +10,10 @@
     <!-- Text Size Dimensions -->
     <dimen name="title_text_size">20sp</dimen>
     <dimen name="message_text_size">14sp</dimen>
+
+    <!-- Recycler View -->
+    <dimen name="rc_elem_bcg_padding_horisontal">32dp</dimen>
+    <dimen name="rc_seekbar_bcg_padding">16dp</dimen>
+    <dimen name="rc_item_spacing">16dp</dimen>
+    <dimen name="rc_bcg_padding_vertical">16dp</dimen>
 </resources>

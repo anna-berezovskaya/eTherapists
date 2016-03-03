@@ -1,6 +1,7 @@
 package com.aberezovskaya.etherapists.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -38,6 +39,17 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
         }
 
         holder.mProblemIntensity.setProgress(problem.getIntesity());
+        switch(position % 3){
+            case 0:
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_green));
+                break;
+            case 1:
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_red));
+                break;
+            case 2:
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_blue));
+                break;
+        }
     }
 
     static class PhysicalProblemsViewHolder extends RecyclerView.ViewHolder{

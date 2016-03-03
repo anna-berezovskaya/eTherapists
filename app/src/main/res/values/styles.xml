@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/actionBarBackround</item>
     </style>
 
+    <style name="AppCompatSeekBarStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/seek_bcg_color</item>
+        <item name="colorAccent">@color/seek_progress_color</item>
+    </style>
+
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
