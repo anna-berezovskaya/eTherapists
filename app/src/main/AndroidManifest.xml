@@ -17,6 +17,7 @@
         </activity>
 
         <activity android:name=".activities.DashboardActivity"/>
+        <activity android:name=".activities.BodyViewActivity"/>
         
         <provider
             android:authorities="com.aberezovskaya.etherapists.eTherapistsDataProvider"

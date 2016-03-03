@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimary">@color/color_white</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorActionBar">#FFFFFF</color>
+    <color name="colorActionBar">@color/color_white</color>
     <color name="color_gray">#abacac</color>
+    <color name="color_white">#FFFFFF</color>
 
     <color name="textColorPrimary">#000000</color>
-    <color name="textColorSecondary">#FFFFFF</color>
-    <color name="actionBarBackround">#FFFFFF</color>
+    <color name="textColorSecondary">@color/color_white</color>
+    <color name="actionBarBackround">@color/color_white</color>
     <color name="navigationBarColor">#000000</color>
 
     <!-- RecyclerView -->
@@ -20,4 +21,10 @@
     <color name="seek_pane_color_red">#fb7449</color>
     <color name="seek_pane_color_green">#cedc42</color>
     <color name="seek_pane_color_blue">#5cbab2</color>
+
+    <!--Dialogs-->
+    <color name="dlg_btn_color">#000000</color>
+    <color name="dlg_controls_color">#cedc42</color>
+    <color name="dlg_text_color">#000000</color>
+
 </resources>

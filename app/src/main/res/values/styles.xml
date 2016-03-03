@@ -11,6 +11,15 @@
         <item name="colorAccent">@color/seek_progress_color</item>
     </style>
 
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/dlg_btn_color</item>
+        <item name="android:textColorPrimary">@color/dlg_text_color</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/dlg_controls_color</item>
+        <item name="colorControlActivated">@color/dlg_controls_color</item>
+        <item name="colorControlHighlight">@color/dlg_controls_color</item>
+    </style>
+
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">

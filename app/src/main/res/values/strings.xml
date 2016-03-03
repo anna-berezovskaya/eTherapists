@@ -2,4 +2,5 @@
     <string name="app_name">eTherapists</string>
     <string name="text_greeting_title">Are you stressed?</string>
     <string name="text_greeting_message">Relaxing exercises and much more..</string>
+    <string name="stub_fragment_message">This tab is empty for now. Some interesting content will be added soon!</string>
 </resources>

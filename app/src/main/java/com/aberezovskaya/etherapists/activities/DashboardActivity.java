@@ -3,21 +3,27 @@ package com.aberezovskaya.etherapists.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.adapters.BaseRecyclerCursorAdapter;
 import com.aberezovskaya.etherapists.fragments.BaseFragment;
 import com.aberezovskaya.etherapists.fragments.CoachingFragment;
 import com.aberezovskaya.etherapists.fragments.PhysicalProblemsFragment;
+import com.aberezovskaya.etherapists.fragments.StubFragment;
 
 /**
  * The Main Activity of the application, containing
  * tabs and controls fragments
  */
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     /**
@@ -49,13 +55,13 @@ public class DashboardActivity extends AppCompatActivity {
         TAB_MENTAL("tab_mental") {
             @Override
             BaseFragment instance() {
-                return null;
+                return new StubFragment();
             }
         },
         TAB_SCORES("tab_scores") {
             @Override
             BaseFragment instance() {
-                return null;
+                return new StubFragment();
             }
         };
 
@@ -76,6 +82,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private TabLayout mTabLayout;
+    private FloatingActionButton mAddButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +90,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        if (savedInstanceState == null){
-          //  replaceFragment(Fragments.TAB_COACHING.instance());
-        }
+        mAddButton = (FloatingActionButton) findViewById(R.id.btn_add);
+        mAddButton.setOnClickListener(this);
         setupTabs();
     }
 
@@ -98,6 +104,7 @@ public class DashboardActivity extends AppCompatActivity {
                         tab.getTag() instanceof Fragments &&
                         ((Fragments) tab.getTag()).instance() != null) {
                     replaceFragment(((Fragments) tab.getTag()).instance());
+                    setupAddButton((Fragments) tab.getTag());
                 }
             }
 
@@ -119,11 +126,25 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
-    public void replaceFragment(Fragment fragment) {
+    protected void replaceFragment(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
+    }
+
+    private void setupAddButton(Fragments fragments){
+        if (fragments.equals(Fragments.TAB_BODY)){
+            mAddButton.setVisibility(View.VISIBLE);
+        } else {
+            mAddButton.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        startActivity(new Intent(this, BodyViewActivity.class));
     }
 }

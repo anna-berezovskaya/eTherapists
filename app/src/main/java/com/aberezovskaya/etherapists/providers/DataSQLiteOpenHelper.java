@@ -47,10 +47,9 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
     /**
      * automatically thread-safe
-     * @param context
      * @return
      */
-    public static DataSQLiteOpenHelper instance(Context context) {
+    public static DataSQLiteOpenHelper instance() {
         return LazyHolder.sInstance;
     }
 

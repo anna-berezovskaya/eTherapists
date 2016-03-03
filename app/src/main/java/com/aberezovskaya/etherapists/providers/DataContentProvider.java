@@ -78,7 +78,7 @@ public class DataContentProvider extends ContentProvider{
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getReadableDatabase();
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance().getReadableDatabase();
         final int code = URI_MATCHER.match(uri);
         Cursor cursor;
         switch (code) {
@@ -146,7 +146,7 @@ public class DataContentProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance().getWritableDatabase();
         final ContentResolver resolver = getContext().getContentResolver();
         final int code = URI_MATCHER.match(uri);
         long rowId;
@@ -204,7 +204,7 @@ public class DataContentProvider extends ContentProvider{
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance().getWritableDatabase();
         final ContentResolver resolver = getContext().getContentResolver();
         final int code = URI_MATCHER.match(uri);
         int count;
@@ -292,7 +292,7 @@ public class DataContentProvider extends ContentProvider{
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        final SQLiteDatabase db = DataSQLiteOpenHelper.instance(getContext()).getWritableDatabase();
+        final SQLiteDatabase db = DataSQLiteOpenHelper.instance().getWritableDatabase();
         final ContentResolver resolver = getContext().getContentResolver();
         final int code = URI_MATCHER.match(uri);
         int count;

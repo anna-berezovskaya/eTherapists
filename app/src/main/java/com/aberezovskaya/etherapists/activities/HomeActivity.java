@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.fragments.BodyViewFragment;
 import com.aberezovskaya.etherapists.fragments.HomeFragment;
 
 /**
@@ -21,9 +22,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.Home
         setContentView(R.layout.activity_home);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.content, new HomeFragment())
-                    .commit();
+           getFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
         }
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
