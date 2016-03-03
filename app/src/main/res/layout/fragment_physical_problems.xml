@@ -8,9 +8,9 @@
         android:id="@+id/rc_problems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_big"
-        android:layout_marginBottom="@dimen/padding_big">
+        android:layout_marginTop="@dimen/padding_big">
 
     </android.support.v7.widget.RecyclerView>
+
 
 </RelativeLayout>

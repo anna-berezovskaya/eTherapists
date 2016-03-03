@@ -20,7 +20,9 @@ public class VerticalSpacingItemDecorator extends RecyclerView.ItemDecoration {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                    RecyclerView.State state) {
-            outRect.bottom = mVerticalSpaceHeight;
+            if ( parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1 ) {
+                outRect.bottom = mVerticalSpaceHeight;
+            }
         }
     }
 

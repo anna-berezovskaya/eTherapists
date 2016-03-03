@@ -81,12 +81,13 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
         setupTabs();
+
+        if (savedInstanceState == null){
+            replaceFragment(Fragments.TAB_COACHING.instance());
+        }
     }
 
     private void setupTabs() {
@@ -94,6 +95,7 @@ public class DashboardActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.body).setTag(Fragments.TAB_BODY));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.scores).setTag(Fragments.TAB_SCORES));
+
 
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

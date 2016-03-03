@@ -2,7 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="padding_big">24dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
-    <dimen name="small_margin">8dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
     <dimen name="tab_max_width">264dp</dimen>
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
@@ -12,7 +12,7 @@
     <dimen name="message_text_size">14sp</dimen>
 
     <!-- Recycler View -->
-    <dimen name="rc_elem_bcg_padding_horisontal">32dp</dimen>
+    <dimen name="rc_elem_bcg_padding_horisontal">24dp</dimen>
     <dimen name="rc_seekbar_bcg_padding">16dp</dimen>
     <dimen name="rc_item_spacing">40dp</dimen>
     <dimen name="rc_bcg_padding_vertical">24dp</dimen>
