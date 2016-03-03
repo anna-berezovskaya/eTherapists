@@ -22,14 +22,14 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
 
     @Override
     public PhysicalProblemsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_rc_problem, parent, false);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.item_rc_problem, parent, false);
         return new PhysicalProblemsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PhysicalProblemsViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
-        BodyProblem problem = new BodyProblem().fromCursor(mCursor);
+        getCursor().moveToPosition(position);
+        BodyProblem problem = new BodyProblem().fromCursor(getCursor());
         if (!TextUtils.isEmpty(problem.getBodyPart())){
             holder.mProblemTitle.setText(problem.getBodyPart());
         }
@@ -41,13 +41,13 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
         holder.mProblemIntensity.setProgress(problem.getIntesity());
         switch(position % 3){
             case 0:
-                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_green));
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seek_pane_color_green));
                 break;
             case 1:
-                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_red));
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seek_pane_color_red));
                 break;
             case 2:
-                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seek_pane_color_blue));
+                holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seek_pane_color_blue));
                 break;
         }
     }

@@ -23,7 +23,7 @@ public class CoachingAdapter extends BaseRecyclerCursorAdapter<CoachingAdapter.C
 
     @Override
     public CoachingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_rc_exercises, parent, false);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.item_rc_exercises, parent, false);
         return new CoachingViewHolder(view);
     }
 

@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 
 public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter< VH>{
 
-    protected Cursor mCursor;
-    protected Context mContext;
+    private Cursor mCursor;
+    private Context mContext;
 
     public BaseRecyclerCursorAdapter(Context context){
         mContext = context;
@@ -33,5 +33,13 @@ public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHold
         } else {
             return 0;
         }
+    }
+
+    protected Context getContext(){
+        return mContext;
+    }
+
+    protected Cursor getCursor(){
+        return mCursor;
     }
 }
