@@ -83,20 +83,13 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        setupTabs();
-
         if (savedInstanceState == null){
-            replaceFragment(Fragments.TAB_COACHING.instance());
+          //  replaceFragment(Fragments.TAB_COACHING.instance());
         }
+        setupTabs();
     }
 
     private void setupTabs() {
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.play).setTag(Fragments.TAB_COACHING), true);
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.body).setTag(Fragments.TAB_BODY));
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.scores).setTag(Fragments.TAB_SCORES));
-
-
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -118,6 +111,12 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
+
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.play).setTag(Fragments.TAB_COACHING), true);
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.body).setTag(Fragments.TAB_BODY));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.scores).setTag(Fragments.TAB_SCORES));
+
     }
 
     public void replaceFragment(Fragment fragment) {
