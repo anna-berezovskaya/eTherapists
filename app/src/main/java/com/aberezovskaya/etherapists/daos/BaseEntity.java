@@ -3,6 +3,7 @@ package com.aberezovskaya.etherapists.daos;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.aberezovskaya.etherapists.providers.DataContentProvider;
 import com.aberezovskaya.etherapists.providers.DataContract;
@@ -132,6 +133,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
         return (T) this;
     }
 
+    @Nullable
     protected static Long getLongValue( Cursor c, String columnName) {
 
         int columnIndex = c.getColumnIndex(columnName);
@@ -146,6 +148,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
         }
     }
 
+    @Nullable
     protected static Integer getIntValue( Cursor c, String columnName) {
 
         int columnIndex = c.getColumnIndex(columnName);
@@ -160,6 +163,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
         }
     }
 
+    @Nullable
     protected static String getStringValue( Cursor c, String columnName){
         int columnIndex = c.getColumnIndex(columnName);
         if (columnIndex >= 0){

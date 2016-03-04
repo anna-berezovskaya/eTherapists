@@ -8,7 +8,7 @@ import com.aberezovskaya.etherapists.providers.DataContract;
 
 public class BodyProblem extends BaseEntity<BodyProblem> {
 
-    private String mBodyPart;
+    private long mBodyPartId;
     private String mDescription;
     private int mIntensity = 0;
 
@@ -19,10 +19,10 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
 
     public BodyProblem(Long id, Long createDate, Long updateDate,
-                                    String bodyPart, String description, int intensity) {
+                                    Long bodyPart, String description, int intensity) {
 
         super(id, createDate, updateDate);
-        mBodyPart = bodyPart;
+        mBodyPartId = bodyPart;
         mDescription = description;
         mIntensity = intensity;
     }
@@ -33,7 +33,8 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         super.fromCursor(c);
 
 
-        mBodyPart = getStringValue(c, DataContract.BodyProblem.COLUMN_BODY_PART);
+        Long id = getLongValue(c, DataContract.BodyProblem.COLUMN_BODY_PART);
+        mBodyPartId = id != null ? id : -1;
         mDescription = getStringValue(c, DataContract.BodyProblem.COLUMN_DESCRIPTION);
         Integer intensity = getIntValue(c, DataContract.BodyProblem.COLUMN_INTENSITY) ;
         mIntensity = intensity != null ? intensity : 0;
@@ -41,13 +42,13 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         return getThis();
     }
 
-    public BodyProblem setBodyPart(String bodyPart) {
-        mBodyPart = bodyPart;
+    public BodyProblem setBodyPart(Long bodyPart) {
+        mBodyPartId = bodyPart;
         return getThis();
     }
 
-    public String getBodyPart(){
-        return mBodyPart;
+    public Long getBodyPart(){
+        return mBodyPartId;
     }
 
     public String getDescription(){
@@ -66,7 +67,6 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
     public BodyProblem setIntensity(int intensity) {
 
-
         mIntensity = intensity;
 
         return getThis();
@@ -76,9 +76,7 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
     @Override
     public ContentValues toContentValues(ContentValues cv) {
          super.toContentValues(cv);
-        if (mBodyPart != null && !mBodyPart.isEmpty()) {
-            cv.put(DataContract.BodyProblem.COLUMN_BODY_PART, mBodyPart);
-        }
+            cv.put(DataContract.BodyProblem.COLUMN_BODY_PART, mBodyPartId);
 
         if (mDescription != null && !mDescription.isEmpty()){
             cv.put(DataContract.BodyProblem.COLUMN_DESCRIPTION, mDescription);

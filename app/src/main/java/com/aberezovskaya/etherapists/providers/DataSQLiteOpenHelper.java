@@ -61,9 +61,16 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.BodyProblem.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataContract.BodyProblem.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyProblem.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
-                DataContract.BodyProblem.COLUMN_BODY_PART + " TEXT NOT NULL, " +
+                DataContract.BodyProblem.COLUMN_BODY_PART + " INTEGER NOT NULL, " +
                 DataContract.BodyProblem.COLUMN_DESCRIPTION + " TEXT, " +
                 DataContract.BodyProblem.COLUMN_INTENSITY + " INTEGER NOT NULL" +
+                ");");
+
+        db.execSQL("CREATE TABLE " + DataContract.Tables.BODY_PART + " ( " +
+                DataContract.BodyPart.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.BodyPart.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
+                DataContract.BodyPart.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
+                DataContract.BodyPart.COLUMN_NAME+ " TEXT NOT NULL" +
                 ");");
 
         //Exercise table

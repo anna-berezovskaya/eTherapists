@@ -66,11 +66,26 @@ public class DataContract {
         public final static String COLUMN_EXERCISE_ID = "exercise_id";
     }
 
+    /**
+     * body part
+     */
+    public interface BodyPart extends BaseEntityColumns {
+
+        public static final String CONTENT_PATH = "body_part";
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI,
+                CONTENT_PATH);
+
+        public final static String COLUMN_NAME = "name";
+    }
+
+
     public interface Tables {
 
         String BODY_PROBLEM = "body_problem";
         String EXERCISE = "exercise";
         String TRAINING = "training";
+        String BODY_PART = "body_part";
     }
 
     /**

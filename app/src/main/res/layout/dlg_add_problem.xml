@@ -26,7 +26,7 @@
             android:layout_centerHorizontal="true"
             android:layout_height="1dp"
             android:background="@color/color_gray"
-            android:layout_below="@id/tv_problem_description"
+            android:layout_below="@id/tv_body_part"
             android:layout_marginBottom="@dimen/rc_separator_view_margins"
             android:layout_marginTop="@dimen/rc_separator_view_margins"/>
 
