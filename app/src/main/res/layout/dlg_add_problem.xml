@@ -41,7 +41,7 @@
             android:progress="50" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
         android:id="@+id/problem_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

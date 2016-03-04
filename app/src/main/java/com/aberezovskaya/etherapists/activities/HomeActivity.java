@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.Home
         setContentView(R.layout.activity_home);
 
         if (savedInstanceState == null) {
-           getFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+           getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
         }
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));

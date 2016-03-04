@@ -1,6 +1,7 @@
 package com.aberezovskaya.etherapists.fragments;
 
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 
 /**
  * Base Fragment

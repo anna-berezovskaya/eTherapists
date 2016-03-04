@@ -2,18 +2,26 @@ package com.aberezovskaya.etherapists.dialogs;
 
 
 import android.app.Dialog;
-import android.app.LoaderManager;
-import android.content.Loader;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.adapters.BodyProblemDialogCursorAdapter;
+import com.aberezovskaya.etherapists.providers.DataContract;
+
+import model.BodyPartEnum;
 
 
 public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -23,7 +31,8 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
 
 
     private String mBodyPart = null;
-    private RecyclerView mProblemsList;
+    private ListView mProblemsList;
+    private BodyProblemDialogCursorAdapter mAdapter;
 
 
     public static final AddProblemDialogFragment getInstance(String bodyPart) {
@@ -37,13 +46,32 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getLoaderManager().initLoader(PROBLEM_LOADER_ID, null, this);
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (getArguments() != null && (mBodyPart = getArguments().getString(ARG_BODY_PART)) != null) {
             ViewGroup view = (ViewGroup)LayoutInflater.from(getContext()).inflate(R.layout.dlg_add_problem, null, false);
-            mProblemsList = (RecyclerView) view.findViewById(R.id.problem_list);
-
+            mProblemsList = (ListView) view.findViewById(R.id.problem_list);
+            mProblemsList.setClickable(true);
+            mProblemsList.setChoiceMode(ListViewCompat.CHOICE_MODE_SINGLE);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setView(view);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
             return builder.create();
         } else {
             return super.onCreateDialog(savedInstanceState);
@@ -53,16 +81,20 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
+        String selection = DataContract.BodyProblem.COLUMN_BODY_PART + "=?";
+        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.CONTENT_URI, null, selection, new String[]{mBodyPart}, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if (data != null) {
+            mAdapter = new BodyProblemDialogCursorAdapter(getContext(), data, false);
+            mProblemsList.setAdapter(mAdapter);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+      //  mAdapter.swapCursor(null);
     }
 }

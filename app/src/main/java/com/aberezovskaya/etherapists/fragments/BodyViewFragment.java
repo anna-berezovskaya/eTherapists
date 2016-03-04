@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.dialogs.AddProblemDialogFragment;
+
+import model.BodyPartEnum;
 
 /**
  * Fragment to display the body view and
@@ -38,13 +41,8 @@ public class BodyViewFragment extends BaseFragment {
     }
 
     private void showAddProblemDialog(){
+        AddProblemDialogFragment fragment = AddProblemDialogFragment.getInstance(BodyPartEnum.HEAD.getTag());
+        fragment.show(getFragmentManager(), "dialog");
 
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
-        builder.setTitle("AppCompatDialog");
-        builder.setMessage("Lorem ipsum dolor...");
-        builder.setPositiveButton("OK", null);
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
     }
 }

@@ -21,7 +21,7 @@ public class BodyViewActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null){
-            getFragmentManager().beginTransaction().replace(R.id.frame_container, new BodyViewFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new BodyViewFragment()).commit();
         }
     }
 

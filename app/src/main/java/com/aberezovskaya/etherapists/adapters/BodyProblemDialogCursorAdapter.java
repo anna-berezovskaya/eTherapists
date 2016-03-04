@@ -2,39 +2,46 @@ package com.aberezovskaya.etherapists.adapters;
 
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatCheckedTextView;
-import android.support.v7.widget.RecyclerView;
+import android.database.Cursor;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
-public class BodyProblemDialogCursorAdapter extends BaseRecyclerCursorAdapter<BodyProblemDialogCursorAdapter.BodyProblemDialogViewHolder> {
+import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.providers.DataContract;
+
+public class BodyProblemDialogCursorAdapter extends CursorAdapter {
 
 
-    public BodyProblemDialogCursorAdapter(Context context) {
-
-        super(context);
+    public BodyProblemDialogCursorAdapter(Context context, Cursor c, boolean autoRequery) {
+        super(context, c, autoRequery);
     }
 
     @Override
-    public BodyProblemDialogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_checked, parent, false);
-        return new BodyProblemDialogViewHolder(view);
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        View v = LayoutInflater.from(context).inflate(R.layout.item_dlg_problems, parent, false);
+        BodyProblemDialogViewHolder holder = new BodyProblemDialogViewHolder(v);
+        v.setTag(holder);
+        return v;
     }
+
 
     @Override
-    public void onBindViewHolder(BodyProblemDialogViewHolder holder, int position) {
+    public void bindView(View view, Context context, Cursor cursor) {
+        BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder)view.getTag();
+        holder.mCheckedTextView.setText(cursor.getString(cursor.getColumnIndex(DataContract.BodyProblem.COLUMN_DESCRIPTION)));
 
     }
 
-    static class BodyProblemDialogViewHolder extends RecyclerView.ViewHolder{
+    static class BodyProblemDialogViewHolder{
 
         private CheckedTextView mCheckedTextView;
 
         public BodyProblemDialogViewHolder(View itemView) {
-            super(itemView);
-            mCheckedTextView = (CheckedTextView) itemView.findViewById(android.R.id.text1);
+            mCheckedTextView = (CheckedTextView) itemView.findViewById(R.id.problem);
+           // mCheckedTextView.setChecked(true);
         }
     }
 }
