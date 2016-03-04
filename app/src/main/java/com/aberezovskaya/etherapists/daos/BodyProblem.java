@@ -10,7 +10,6 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
     private long mBodyPartId;
     private String mDescription;
-    private int mIntensity = 0;
 
     public BodyProblem() {
 
@@ -19,12 +18,11 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
 
     public BodyProblem(Long id, Long createDate, Long updateDate,
-                                    Long bodyPart, String description, int intensity) {
+                                    Long bodyPart, String description) {
 
         super(id, createDate, updateDate);
         mBodyPartId = bodyPart;
         mDescription = description;
-        mIntensity = intensity;
     }
 
     @Override
@@ -36,8 +34,6 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         Long id = getLongValue(c, DataContract.BodyProblem.COLUMN_BODY_PART);
         mBodyPartId = id != null ? id : -1;
         mDescription = getStringValue(c, DataContract.BodyProblem.COLUMN_DESCRIPTION);
-        Integer intensity = getIntValue(c, DataContract.BodyProblem.COLUMN_INTENSITY) ;
-        mIntensity = intensity != null ? intensity : 0;
 
         return getThis();
     }
@@ -55,20 +51,10 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         return mDescription;
     }
 
-    public int getIntesity(){
-        return mIntensity;
-    }
 
     public BodyProblem setDescription(String description) {
 
         mDescription = description;
-        return getThis();
-    }
-
-    public BodyProblem setIntensity(int intensity) {
-
-        mIntensity = intensity;
-
         return getThis();
     }
 
@@ -81,8 +67,6 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         if (mDescription != null && !mDescription.isEmpty()){
             cv.put(DataContract.BodyProblem.COLUMN_DESCRIPTION, mDescription);
         }
-
-        cv.put(DataContract.BodyProblem.COLUMN_INTENSITY, mIntensity);
 
         return cv;
     }

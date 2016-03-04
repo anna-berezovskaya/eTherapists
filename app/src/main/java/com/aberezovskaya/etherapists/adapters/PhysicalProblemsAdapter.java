@@ -6,12 +6,16 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.daos.BodyPart;
 import com.aberezovskaya.etherapists.daos.BodyProblem;
+import com.aberezovskaya.etherapists.daos.PhysicalProblem;
+import com.aberezovskaya.etherapists.providers.DataContract;
 
 
 public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalProblemsAdapter.PhysicalProblemsViewHolder> {
@@ -29,16 +33,19 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
     @Override
     public void onBindViewHolder(PhysicalProblemsViewHolder holder, int position) {
         getCursor().moveToPosition(position);
-        BodyProblem problem = new BodyProblem().fromCursor(getCursor());
-        if (!TextUtils.isEmpty(problem.getBodyPart())){
-            holder.mProblemTitle.setText(problem.getBodyPart());
+        PhysicalProblem problem = new PhysicalProblem().fromCursor(getCursor());
+        String bpName = getCursor().getString(getCursor().getColumnIndex(DataContract.BodyPart.COLUMN_NAME));
+        String bodyProblemName = getCursor().getString(getCursor().getColumnIndex(DataContract.BodyProblem.COLUMN_DESCRIPTION));
+        if (!TextUtils.isEmpty(bpName)) {
+            holder.mProblemTitle.setText(bpName);
         }
 
-        if (!TextUtils.isEmpty(problem.getDescription())){
-            holder.mProblemDescription.setText(problem.getDescription());
+        if (!TextUtils.isEmpty(bodyProblemName)){
+            holder.mProblemDescription.setText(bodyProblemName);
         }
 
-        holder.mProblemIntensity.setProgress(problem.getIntesity());
+        holder.mProblemIntensity.setProgress(problem.getIntensity() != -1 ? problem.getIntensity() : 0);
+
         switch(position % 3){
             case 0:
                 holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seek_pane_color_green));
@@ -64,6 +71,14 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
             mProblemTitle = (TextView) itemView.findViewById(R.id.tv_problem_title);
             mProblemDescription = (TextView) itemView.findViewById(R.id.tv_problem_description);
             mProblemIntensity = (AppCompatSeekBar) itemView.findViewById(R.id.seek_intensity);
+
+            // make it not respond to touch events without change the stle to not active
+            mProblemIntensity.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
         }
     }
 }

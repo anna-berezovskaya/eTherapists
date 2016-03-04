@@ -51,6 +51,7 @@
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seek_intensity"
+            android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppCompatSeekBarStyle"

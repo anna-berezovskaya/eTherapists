@@ -13,8 +13,8 @@ public class Exercise extends BaseEntity<Exercise> {
     private String mPic = null;
     private int mDuration = -1;
 
-    Exercise(){super();}
-    Exercise(long id, long createDate, long modifyDate, String name, String pic, int duration){
+    public Exercise(){super();}
+    public Exercise(long id, long createDate, long modifyDate, String name, String pic, int duration){
         super(id, createDate, modifyDate);
         mName = name;
         mPic = pic;

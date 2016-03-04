@@ -59,7 +59,7 @@ public class PhysicalProblemsFragment extends BaseFragment implements LoaderMana
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity().getApplicationContext(), DataContract.PhysicalProblem.CONTENT_URI, null, null, null, null);
     }
 
     @Override

@@ -8,7 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.aberezovskaya.etherapists.App;
 import com.aberezovskaya.etherapists.Config;
 import com.aberezovskaya.etherapists.daos.BaseEntity;
+import com.aberezovskaya.etherapists.daos.BodyPart;
 import com.aberezovskaya.etherapists.daos.BodyProblem;
+import com.aberezovskaya.etherapists.daos.Exercise;
+import com.aberezovskaya.etherapists.daos.PhysicalProblem;
+import com.aberezovskaya.etherapists.daos.Training;
 
 /**
  *  SQLiteOpenHelper class to manage
@@ -62,8 +66,7 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.BodyProblem.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyProblem.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyProblem.COLUMN_BODY_PART + " INTEGER NOT NULL, " +
-                DataContract.BodyProblem.COLUMN_DESCRIPTION + " TEXT, " +
-                DataContract.BodyProblem.COLUMN_INTENSITY + " INTEGER NOT NULL" +
+                DataContract.BodyProblem.COLUMN_DESCRIPTION + " TEXT" +
                 ");");
 
         db.execSQL("CREATE TABLE " + DataContract.Tables.BODY_PART + " ( " +
@@ -71,6 +74,14 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.BodyPart.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyPart.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyPart.COLUMN_NAME+ " TEXT NOT NULL" +
+                ");");
+
+        db.execSQL("CREATE TABLE " + DataContract.Tables.PHYSICAL_PROBLEM + " ( " +
+                DataContract.PhysicalProblem.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.PhysicalProblem.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
+                DataContract.PhysicalProblem.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
+                DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + " INTEGER NOT NULL, " +
+                DataContract.PhysicalProblem.COLUMN_INTENSITY + " INTEGER " +
                 ");");
 
         //Exercise table
@@ -99,6 +110,29 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
             cv.clear();
             BaseEntity.prepareForInsert(problem.toContentValues(cv));
             db.insert(DataContract.Tables.BODY_PROBLEM, null, cv);
+        }
+
+        for (BodyPart part : Config.PARTS_OF_BODY_LIST) {
+            cv.clear();
+            BaseEntity.prepareForInsert(part.toContentValues(cv));
+            db.insert(DataContract.Tables.BODY_PART, null, cv);
+        }
+
+        for (Training training : Config.PREDEFINED_TRAININGS) {
+            cv.clear();
+            BaseEntity.prepareForInsert(training.toContentValues(cv));
+            db.insert(DataContract.Tables.TRAINING, null, cv);
+        }
+
+        for (Exercise exercise : Config.PREDEFINED_EXERCISES){
+            cv.clear();
+            BaseEntity.prepareForInsert(exercise.toContentValues(cv));
+            db.insert(DataContract.Tables.EXERCISE, null, cv);
+        }
+        for (PhysicalProblem problem : Config.PREDEFINED_PHYSICAL_PROBLEMS){
+            cv.clear();
+            BaseEntity.prepareForInsert(problem.toContentValues(cv));
+            db.insert(DataContract.Tables.PHYSICAL_PROBLEM, null, cv);
         }
     }
 

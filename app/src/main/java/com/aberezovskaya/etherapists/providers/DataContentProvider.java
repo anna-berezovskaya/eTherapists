@@ -34,6 +34,7 @@ public class DataContentProvider extends ContentProvider{
     private static final int EXERCISE_BY_ID_CODE = 4;
     private static final int TRAINING_CODE = 5;
     private static final int TRAINING_BY_ID_CODE = 6;
+    private static final int PHYSICAL_PROBLEM_CODE = 7;
 
     /** uri matcher initialization */
     static {
@@ -51,6 +52,8 @@ public class DataContentProvider extends ContentProvider{
                 DataContract.Training.CONTENT_PATH, TRAINING_CODE);
         URI_MATCHER.addURI(DataContract.AUTHORITY,
                 DataContract.Training.CONTENT_PATH + "/#", TRAINING_BY_ID_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY,
+                DataContract.PhysicalProblem.CONTENT_PATH, PHYSICAL_PROBLEM_CODE);
     }
 
     private static final String SQL_TRAININGS = "(SELECT " +
@@ -59,16 +62,42 @@ public class DataContentProvider extends ContentProvider{
             DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_MODIFY_DATE + ", " +
             DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
             DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_INTENSITY + ", " +
             DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_TITLE + ", " +
             DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_IMAGE + ", " +
             DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_DURATION + ", " +
             "FROM " +DataContract.Tables.TRAINING + " " +
             "LEFT JOIN " +DataContract.Tables.BODY_PROBLEM + " ON " +DataContract.Tables.BODY_PROBLEM + "."
-            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " " +
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " = " + DataContract.Tables.TRAINING +
+            "." + DataContract.Training.COLUMN_PROBLEM_ID +" " +
             "LEFT JOIN " + DataContract.Tables.EXERCISE + " ON " + DataContract.Tables.EXERCISE + "." + DataContract.Exercise.COLUMN_ID + " = " +
             DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_EXERCISE_ID +
             ")";
+
+    private static final String SQL_BODY_PROBLEMS = "SELECT " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_ID + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
+            "FROM " +DataContract.Tables.BODY_PROBLEM  + " " +
+            "LEFT JOIN " +DataContract.Tables.BODY_PART + " ON " +DataContract.Tables.BODY_PART + "."
+            + DataContract.BodyPart.COLUMN_ID + " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
+
+    private static final String SQL_PHYSICAL_PROBLEM = "SELECT " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_ID + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_INTENSITY + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
+            "FROM " + DataContract.Tables.PHYSICAL_PROBLEM  + " " +
+            "LEFT JOIN " + DataContract.Tables.BODY_PROBLEM + " ON " + DataContract.Tables.BODY_PROBLEM + "."
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + " " +
+            "LEFT JOIN " + DataContract.Tables.BODY_PART + " ON " + DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_ID +
+            " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
 
     @Override
     public boolean onCreate() {
@@ -85,8 +114,9 @@ public class DataContentProvider extends ContentProvider{
 
             case BODY_PROBLEM_CODE: {
 
-                cursor = db.query(DataContract.Tables.BODY_PROBLEM, projection, selection, selectionArgs, null, null,
-                        sortOrder);
+              //  cursor = db.query(SQL_BODY_PROBLEMS, projection, selection, selectionArgs, null, null,
+              //          sortOrder);
+                cursor = db.rawQuery(SQL_BODY_PROBLEMS, null);
             }
             break;
 
@@ -112,7 +142,8 @@ public class DataContentProvider extends ContentProvider{
             break;
             case TRAINING_CODE: {
 
-                cursor = db.query(SQL_TRAININGS, projection, selection, selectionArgs, null, null, sortOrder);
+                //cursor = db.query(SQL_TRAININGS, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = db.rawQuery(SQL_TRAININGS, null);
             }
             break;
             case TRAINING_BY_ID_CODE: {
@@ -120,6 +151,11 @@ public class DataContentProvider extends ContentProvider{
                 String id = uri.getLastPathSegment();
                 cursor = db.query(DataContract.Tables.TRAINING, projection, DataContract.Training.COLUMN_ID + " = ?",
                         new String[] {id}, null, null, sortOrder);
+            }
+            break;
+
+            case PHYSICAL_PROBLEM_CODE:{
+                cursor = db.rawQuery(SQL_PHYSICAL_PROBLEM, null);
             }
             break;
             default: {
@@ -186,6 +222,19 @@ public class DataContentProvider extends ContentProvider{
                 if (-1 != rowId) {
 
                     Uri insertedUri = ContentUris.withAppendedId(DataContract.Training.CONTENT_URI, rowId);
+                    resolver.notifyChange(insertedUri, null);
+                    return insertedUri;
+                }
+
+                throw new SQLException("Failed to insert row into " + uri);
+            }
+
+            case PHYSICAL_PROBLEM_CODE: {
+                rowId = db.insert(DataContract.Tables.PHYSICAL_PROBLEM, null, values);
+
+                if (-1 != rowId) {
+
+                    Uri insertedUri = ContentUris.withAppendedId(DataContract.PhysicalProblem.CONTENT_URI, rowId);
                     resolver.notifyChange(insertedUri, null);
                     return insertedUri;
                 }
@@ -280,6 +329,16 @@ public class DataContentProvider extends ContentProvider{
                 }
             }
             break;
+            case PHYSICAL_PROBLEM_CODE: {
+
+                count = db.delete(DataContract.Tables.PHYSICAL_PROBLEM, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.PhysicalProblem.CONTENT_URI, null);
+                }
+            }
+            break;
 
             default: {
 
@@ -367,6 +426,17 @@ public class DataContentProvider extends ContentProvider{
 
                     resolver.notifyChange(DataContract.Training.CONTENT_URI, null);
                     resolver.notifyChange(uri, null);
+                }
+            }
+            break;
+
+            case PHYSICAL_PROBLEM_CODE: {
+
+                count = db.update(DataContract.Tables.PHYSICAL_PROBLEM, values, selection, selectionArgs);
+
+                if(count > 0) {
+
+                    resolver.notifyChange(DataContract.PhysicalProblem.CONTENT_URI, null);
                 }
             }
             break;

@@ -33,8 +33,19 @@ public class DataContract {
                 CONTENT_PATH);
 
         public final static String COLUMN_BODY_PART = "body_part";
-        public final static String COLUMN_INTENSITY = "intensity";
         public final static String COLUMN_DESCRIPTION = "column_description";
+    }
+
+    /**
+     * physical problem
+     * concrete user problem
+     */
+    public interface PhysicalProblem extends BaseEntityColumns{
+        public static final String CONTENT_PATH = "physical_problem";
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, CONTENT_PATH);
+        public final static String COLUMN_BODY_PROBLEM= "body_problem";
+        public final static String COLUMN_INTENSITY = "intensity";
     }
 
     /**
@@ -86,6 +97,7 @@ public class DataContract {
         String EXERCISE = "exercise";
         String TRAINING = "training";
         String BODY_PART = "body_part";
+        String PHYSICAL_PROBLEM = "physical_problem";
     }
 
     /**

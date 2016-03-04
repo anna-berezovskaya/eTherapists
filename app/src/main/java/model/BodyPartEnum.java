@@ -1,17 +1,21 @@
 package model;
 
 
+import com.aberezovskaya.etherapists.App;
+import com.aberezovskaya.etherapists.R;
+
 public enum BodyPartEnum {
-    HEAD("head"),
-    NECK("neck"),
-    SHOULDER_RIGHT("shoulder_right"),
-    SHOULDER_LEFT("shoulder_left"),
-    KNEE("knee"),
-    UNKNOWN("unknown");
+    HEAD(App.instance().getString(R.string.head)),
+    NECK(App.instance().getString(R.string.neck)),
+    SHOULDER_RIGHT(App.instance().getString(R.string.right_shoulder)),
+    SHOULDER_LEFT(App.instance().getString(R.string.left_shoulder)),
+    KNEE(App.instance().getString(R.string.knee)),
+    UNKNOWN(App.instance().getString(R.string.unknown));
 
     private String mTag;
 
     BodyPartEnum(String tag){
+
         mTag = tag;
     }
 
