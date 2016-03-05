@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:top="0dp" android:right="@dimen/dlg_elem_bcg_padding_horisontal" android:bottom="0dp"
+        android:left="@dimen/dlg_elem_bcg_padding_horisontal">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_white" />
+        </shape>
+    </item>
+</layer-list>

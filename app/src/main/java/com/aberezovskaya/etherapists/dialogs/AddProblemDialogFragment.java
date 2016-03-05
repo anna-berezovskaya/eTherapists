@@ -4,7 +4,10 @@ package com.aberezovskaya.etherapists.dialogs;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -27,7 +30,7 @@ import com.aberezovskaya.etherapists.providers.DataContract;
 import model.BodyPartEnum;
 
 
-public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = AddProblemDialogFragment.class.getSimpleName();
 
@@ -37,10 +40,9 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
 
     private BodyPartEnum mBodyPart = null;
     private ListView mProblemsList;
-    private BodyProblemDialogCursorAdapter mAdapter;
 
 
-    public static final AddProblemDialogFragment getInstance(String bodyPart) {
+    public static AddProblemDialogFragment getInstance(String bodyPart) {
         AddProblemDialogFragment fragment = new AddProblemDialogFragment();
         Bundle bundle = new Bundle();
         if (bodyPart != null) {
@@ -56,9 +58,10 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String bodyPart = null;
-        if (getArguments() != null && ( bodyPart= getArguments().getString(ARG_BODY_PART)) != null) {
+        if (getArguments() != null && (bodyPart = getArguments().getString(ARG_BODY_PART)) != null) {
             mBodyPart = BodyPartEnum.getBPByTag(bodyPart);
             if (mBodyPart != null && mBodyPart != BodyPartEnum.UNKNOWN) {
                 ViewGroup view = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dlg_add_problem, null, false);
@@ -93,19 +96,19 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection = DataContract.BodyPart.COLUMN_NAME + " = ?";
-        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.JOIN_CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
+        return new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.JOIN_CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.getCount() > 0) {
-            mAdapter = new BodyProblemDialogCursorAdapter(getContext(), data, false);
-            mProblemsList.setAdapter(mAdapter);
+            BodyProblemDialogCursorAdapter adapter = new BodyProblemDialogCursorAdapter(getContext(), data, false);
+            mProblemsList.setAdapter(adapter);
             mProblemsList.setItemChecked(0, true);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-}
+    }
 }

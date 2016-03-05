@@ -15,13 +15,23 @@
         <item name="colorAccent">@color/seek_progress_color</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/dlg_btn_color</item>
         <item name="android:textColorPrimary">@color/dlg_text_color</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="colorControlNormal">@color/dlg_controls_color</item>
         <item name="colorControlActivated">@color/dlg_controls_color</item>
         <item name="colorControlHighlight">@color/dlg_controls_color</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="TransparentTheme" parent="@style/Theme.AppCompat.Dialog">
+
+
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
 
