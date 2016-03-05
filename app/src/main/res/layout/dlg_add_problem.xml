@@ -31,6 +31,7 @@
             android:layout_marginTop="@dimen/rc_separator_view_margins"/>
 
         <android.support.v7.widget.AppCompatSeekBar
+            android:background="@color/seek_pane_color_green"
             android:id="@+id/seek_intensity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

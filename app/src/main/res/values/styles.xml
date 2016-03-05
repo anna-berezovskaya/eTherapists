@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/actionBarBackround</item>
     </style>
 
+    <style name="AppCompatCheckedTextViewStyle" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/seek_pane_color_green</item>
+    </style>
+
     <style name="AppCompatSeekBarStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/seek_bcg_color</item>
         <item name="colorAccent">@color/seek_progress_color</item>

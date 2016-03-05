@@ -13,12 +13,15 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.adapters.BodyProblemDialogCursorAdapter;
+import com.aberezovskaya.etherapists.daos.BodyPart;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
 import model.BodyPartEnum;
@@ -26,11 +29,13 @@ import model.BodyPartEnum;
 
 public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private static final String TAG = AddProblemDialogFragment.class.getSimpleName();
+
     private static final String ARG_BODY_PART = "body_part";
     private static final int PROBLEM_LOADER_ID = 0;
 
 
-    private String mBodyPart = null;
+    private BodyPartEnum mBodyPart = null;
     private ListView mProblemsList;
     private BodyProblemDialogCursorAdapter mAdapter;
 
@@ -48,41 +53,47 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLoaderManager().initLoader(PROBLEM_LOADER_ID, null, this);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if (getArguments() != null && (mBodyPart = getArguments().getString(ARG_BODY_PART)) != null) {
-            ViewGroup view = (ViewGroup)LayoutInflater.from(getContext()).inflate(R.layout.dlg_add_problem, null, false);
-            mProblemsList = (ListView) view.findViewById(R.id.problem_list);
-            mProblemsList.setClickable(true);
-            mProblemsList.setChoiceMode(ListViewCompat.CHOICE_MODE_SINGLE);
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setView(view);
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+        String bodyPart = null;
+        if (getArguments() != null && ( bodyPart= getArguments().getString(ARG_BODY_PART)) != null) {
+            mBodyPart = BodyPartEnum.getBPByTag(bodyPart);
+            if (mBodyPart != null && mBodyPart != BodyPartEnum.UNKNOWN) {
+                ViewGroup view = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dlg_add_problem, null, false);
+                mProblemsList = (ListView) view.findViewById(R.id.problem_list);
+                ((TextView) view.findViewById(R.id.tv_body_part)).setText(mBodyPart.getTag());
+                mProblemsList.setClickable(true);
+                mProblemsList.setChoiceMode(ListViewCompat.CHOICE_MODE_SINGLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle);
+                builder.setView(view);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
-            return builder.create();
-        } else {
-            return super.onCreateDialog(savedInstanceState);
+                    }
+                });
+                getLoaderManager().restartLoader(PROBLEM_LOADER_ID, null, this);
+                return builder.create();
+            }
         }
 
+        Log.d(TAG, "Something goes wrong. The part of body is unknown!");
+        return super.onCreateDialog(savedInstanceState);
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection = DataContract.BodyProblem.COLUMN_BODY_PART + "=?";
-        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.CONTENT_URI, null, selection, new String[]{mBodyPart}, null);
+        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
     }
 
     @Override
