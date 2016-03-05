@@ -29,10 +29,12 @@ public class Config {
 
     public static final BodyProblem[] PREDEFINED_BODY_PROBLEM = new BodyProblem[]{
             new BodyProblem(1L, System.currentTimeMillis(), System.currentTimeMillis(), 1L, "Head problem"),
-            new BodyProblem(1L, System.currentTimeMillis(), System.currentTimeMillis(), 1L, "Head problem_1"),
             new BodyProblem(2L, System.currentTimeMillis(), System.currentTimeMillis(), 2L, "Neck problem"),
             new BodyProblem(3L, System.currentTimeMillis(), System.currentTimeMillis(), 3L, "Left shoulder problem"),
-            new BodyProblem(4L, System.currentTimeMillis(), System.currentTimeMillis(), 4L, "Right shoulder problem")
+            new BodyProblem(4L, System.currentTimeMillis(), System.currentTimeMillis(), 4L, "Right shoulder problem"),
+            new BodyProblem(5L, System.currentTimeMillis(), System.currentTimeMillis(), 5L, "Back problem"),
+            new BodyProblem(6L, System.currentTimeMillis(), System.currentTimeMillis(), 5L, "Back problem_1"),
+            new BodyProblem(7L, System.currentTimeMillis(), System.currentTimeMillis(), 1L, "Head problem_1"),
 
     };
 

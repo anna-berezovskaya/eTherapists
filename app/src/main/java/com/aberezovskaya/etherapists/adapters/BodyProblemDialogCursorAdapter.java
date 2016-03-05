@@ -33,6 +33,7 @@ public class BodyProblemDialogCursorAdapter extends CursorAdapter {
         BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder)view.getTag();
         holder.mCheckedTextView.setText(cursor.getString(cursor.getColumnIndex(DataContract.BodyProblem.COLUMN_DESCRIPTION)));
 
+
     }
 
     static class BodyProblemDialogViewHolder{
@@ -41,7 +42,6 @@ public class BodyProblemDialogCursorAdapter extends CursorAdapter {
 
         public BodyProblemDialogViewHolder(View itemView) {
             mCheckedTextView = (CheckedTextView) itemView.findViewById(R.id.problem);
-           // mCheckedTextView.setChecked(true);
         }
     }
 }
