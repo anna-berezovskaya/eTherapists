@@ -24,11 +24,12 @@ public class Config {
             new BodyPart(2L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.NECK),
             new BodyPart(3L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.SHOULDER_LEFT),
             new BodyPart(4L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.SHOULDER_RIGHT),
-            new BodyPart(5L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.KNEE),
+            new BodyPart(5L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.BACK),
     };
 
     public static final BodyProblem[] PREDEFINED_BODY_PROBLEM = new BodyProblem[]{
             new BodyProblem(1L, System.currentTimeMillis(), System.currentTimeMillis(), 1L, "Head problem"),
+            new BodyProblem(1L, System.currentTimeMillis(), System.currentTimeMillis(), 1L, "Head problem_1"),
             new BodyProblem(2L, System.currentTimeMillis(), System.currentTimeMillis(), 2L, "Neck problem"),
             new BodyProblem(3L, System.currentTimeMillis(), System.currentTimeMillis(), 3L, "Left shoulder problem"),
             new BodyProblem(4L, System.currentTimeMillis(), System.currentTimeMillis(), 4L, "Right shoulder problem")

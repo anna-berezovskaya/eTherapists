@@ -9,6 +9,6 @@
     <string name="neck">Neck</string>
     <string name="left_shoulder">Lef Shoulder</string>
     <string name="right_shoulder">Right shoulder</string>
-    <string name="knee">Knee</string>
+    <string name="back">Back</string>
     <string name="unknown">Unknown</string>
 </resources>

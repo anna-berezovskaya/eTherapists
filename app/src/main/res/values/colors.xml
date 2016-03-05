@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorActionBar">@color/color_white</color>
     <color name="color_gray">#abacac</color>
+    <color name="color_gray_transparent">#50abacac</color>
     <color name="color_white">#FFFFFF</color>
 
     <color name="textColorPrimary">#000000</color>
@@ -26,5 +27,12 @@
     <color name="dlg_btn_color">#000000</color>
     <color name="dlg_controls_color">#cedc42</color>
     <color name="dlg_text_color">#000000</color>
+
+    <!-- BodyView Map Colors -->
+    <color name="color_head">#ff0000</color>
+    <color name="color_neck">#ed008c</color>
+    <color name="color_back">#00ff00</color>
+    <color name="color_shoulder_left">#ffff00</color>
+    <color name="color_shoulder_right">#0000ff</color>
 
 </resources>

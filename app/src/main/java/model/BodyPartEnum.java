@@ -9,7 +9,7 @@ public enum BodyPartEnum {
     NECK(App.instance().getString(R.string.neck)),
     SHOULDER_RIGHT(App.instance().getString(R.string.right_shoulder)),
     SHOULDER_LEFT(App.instance().getString(R.string.left_shoulder)),
-    KNEE(App.instance().getString(R.string.knee)),
+    BACK(App.instance().getString(R.string.back)),
     UNKNOWN(App.instance().getString(R.string.unknown));
 
     private String mTag;
