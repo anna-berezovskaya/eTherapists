@@ -92,8 +92,8 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String selection = DataContract.BodyProblem.COLUMN_BODY_PART + "=?";
-        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
+        String selection = DataContract.BodyPart.COLUMN_NAME + " = ?";
+        return  new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.JOIN_CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
     }
 
     @Override

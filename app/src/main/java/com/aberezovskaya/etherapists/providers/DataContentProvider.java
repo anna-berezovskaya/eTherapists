@@ -35,6 +35,53 @@ public class DataContentProvider extends ContentProvider{
     private static final int TRAINING_CODE = 5;
     private static final int TRAINING_BY_ID_CODE = 6;
     private static final int PHYSICAL_PROBLEM_CODE = 7;
+    private static final int PHYSICAL_PROBLEM_JOIN_CODE = 8;
+    private static final int BODY_PROBLEM_JOIN_CODE = 9;
+    private static final int TRAINING_JOIN_CODE = 10;
+
+    public static final String SQL_PHYSICAL_PROBLEM = "SELECT " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_ID + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + ", " +
+            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_INTENSITY + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
+            "FROM " + DataContract.Tables.PHYSICAL_PROBLEM  + " " +
+            "LEFT JOIN " + DataContract.Tables.BODY_PROBLEM + " ON " + DataContract.Tables.BODY_PROBLEM + "."
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + " " +
+            "LEFT JOIN " + DataContract.Tables.BODY_PART + " ON " + DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_ID +
+            " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
+
+    public static final String SQL_BODY_PROBLEMS = "SELECT " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_ID + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
+            "FROM " +DataContract.Tables.BODY_PROBLEM  + " " +
+            "LEFT JOIN " +DataContract.Tables.BODY_PART + " ON " +DataContract.Tables.BODY_PART + "."
+            + DataContract.BodyPart.COLUMN_ID + " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
+
+    public static final String SQL_TRAININGS = "(SELECT " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_ID + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
+            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_TITLE + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_IMAGE + ", " +
+            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_DURATION + ", " +
+            "FROM " +DataContract.Tables.TRAINING + " " +
+            "LEFT JOIN " +DataContract.Tables.BODY_PROBLEM + " ON " +DataContract.Tables.BODY_PROBLEM + "."
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " = " + DataContract.Tables.TRAINING +
+            "." + DataContract.Training.COLUMN_PROBLEM_ID +" " +
+            "LEFT JOIN " + DataContract.Tables.EXERCISE + " ON " + DataContract.Tables.EXERCISE + "." + DataContract.Exercise.COLUMN_ID + " = " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_EXERCISE_ID +
+            ")";
+
 
     /** uri matcher initialization */
     static {
@@ -54,50 +101,12 @@ public class DataContentProvider extends ContentProvider{
                 DataContract.Training.CONTENT_PATH + "/#", TRAINING_BY_ID_CODE);
         URI_MATCHER.addURI(DataContract.AUTHORITY,
                 DataContract.PhysicalProblem.CONTENT_PATH, PHYSICAL_PROBLEM_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.PhysicalProblem.JOIN_CONTENT_PATH, PHYSICAL_PROBLEM_JOIN_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.BodyProblem.JOIN_CONTENT_PATH, BODY_PROBLEM_JOIN_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.Training.JOIN_CONTENT_PATH, TRAINING_JOIN_CODE);
     }
 
-    private static final String SQL_TRAININGS = "(SELECT " +
-            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_ID + ", " +
-            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_CREATE_DATE + ", " +
-            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_MODIFY_DATE + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
-            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_TITLE + ", " +
-            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_IMAGE + ", " +
-            DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_DURATION + ", " +
-            "FROM " +DataContract.Tables.TRAINING + " " +
-            "LEFT JOIN " +DataContract.Tables.BODY_PROBLEM + " ON " +DataContract.Tables.BODY_PROBLEM + "."
-            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " = " + DataContract.Tables.TRAINING +
-            "." + DataContract.Training.COLUMN_PROBLEM_ID +" " +
-            "LEFT JOIN " + DataContract.Tables.EXERCISE + " ON " + DataContract.Tables.EXERCISE + "." + DataContract.Exercise.COLUMN_ID + " = " +
-            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_EXERCISE_ID +
-            ")";
 
-    private static final String SQL_BODY_PROBLEMS = "SELECT " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_ID + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_CREATE_DATE + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_MODIFY_DATE + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
-            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
-            "FROM " +DataContract.Tables.BODY_PROBLEM  + " " +
-            "LEFT JOIN " +DataContract.Tables.BODY_PART + " ON " +DataContract.Tables.BODY_PART + "."
-            + DataContract.BodyPart.COLUMN_ID + " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
-
-    private static final String SQL_PHYSICAL_PROBLEM = "SELECT " +
-            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_ID + ", " +
-            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_CREATE_DATE + ", " +
-            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_MODIFY_DATE + ", " +
-            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + ", " +
-            DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_INTENSITY + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_DESCRIPTION + ", " +
-            DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART + ", " +
-            DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_NAME + " " +
-            "FROM " + DataContract.Tables.PHYSICAL_PROBLEM  + " " +
-            "LEFT JOIN " + DataContract.Tables.BODY_PROBLEM + " ON " + DataContract.Tables.BODY_PROBLEM + "."
-            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + " " +
-            "LEFT JOIN " + DataContract.Tables.BODY_PART + " ON " + DataContract.Tables.BODY_PART + "." + DataContract.BodyPart.COLUMN_ID +
-            " = " + DataContract.Tables.BODY_PROBLEM + "." + DataContract.BodyProblem.COLUMN_BODY_PART;
 
     @Override
     public boolean onCreate() {
@@ -114,9 +123,9 @@ public class DataContentProvider extends ContentProvider{
 
             case BODY_PROBLEM_CODE: {
 
-              //  cursor = db.query(SQL_BODY_PROBLEMS, projection, selection, selectionArgs, null, null,
-              //          sortOrder);
-                cursor = db.rawQuery(SQL_BODY_PROBLEMS, null);
+                cursor = db.query(DataContract.Tables.BODY_PROBLEM, projection, selection, selectionArgs, null, null,
+                        sortOrder);
+               // cursor = db.rawQuery(SQL_BODY_PROBLEMS, null);
             }
             break;
 
@@ -125,6 +134,17 @@ public class DataContentProvider extends ContentProvider{
                 String id = uri.getLastPathSegment();
                 cursor = db.query(DataContract.Tables.BODY_PROBLEM, projection, DataContract.BodyProblem.COLUMN_ID + " = ?",
                         new String[] {id}, null, null, sortOrder);
+            }
+            break;
+
+            case BODY_PROBLEM_JOIN_CODE:{
+                StringBuilder query = new StringBuilder();
+                query.append(SQL_BODY_PROBLEMS);
+                if (selection != null ){
+                    query.append(" WHERE ");
+                    query.append(selection);
+                }
+                cursor = db.rawQuery(query.toString(), selectionArgs);
             }
             break;
 
@@ -142,8 +162,8 @@ public class DataContentProvider extends ContentProvider{
             break;
             case TRAINING_CODE: {
 
-                //cursor = db.query(SQL_TRAININGS, projection, selection, selectionArgs, null, null, sortOrder);
-                cursor = db.rawQuery(SQL_TRAININGS, null);
+                cursor = db.query(DataContract.Tables.TRAINING, projection, selection, selectionArgs, null, null, sortOrder);
+              //  cursor = db.rawQuery(SQL_TRAININGS, null);
             }
             break;
             case TRAINING_BY_ID_CODE: {
@@ -154,8 +174,31 @@ public class DataContentProvider extends ContentProvider{
             }
             break;
 
+            case TRAINING_JOIN_CODE: {
+                StringBuilder query = new StringBuilder();
+                query.append(SQL_TRAININGS);
+                if (selection != null ){
+                    query.append(" WHERE ");
+                    query.append(selection);
+                }
+                cursor = db.rawQuery(query.toString(), selectionArgs);
+            }
+            break;
+
             case PHYSICAL_PROBLEM_CODE:{
-                cursor = db.rawQuery(SQL_PHYSICAL_PROBLEM, null);
+               // cursor = db.rawQuery(SQL_PHYSICAL_PROBLEM, null);
+                cursor = db.query(DataContract.Tables.PHYSICAL_PROBLEM, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+            break;
+
+            case PHYSICAL_PROBLEM_JOIN_CODE:{
+                StringBuilder query = new StringBuilder();
+                query.append(SQL_PHYSICAL_PROBLEM);
+                 if (selection != null ){
+                     query.append(" WHERE ");
+                     query.append(selection);
+                 }
+                cursor = db.rawQuery(query.toString(), selectionArgs);
             }
             break;
             default: {

@@ -28,9 +28,11 @@ public class DataContract {
     public interface BodyProblem extends BaseEntityColumns {
 
         public static final String CONTENT_PATH = "body_problem";
+        public static final String JOIN_CONTENT_PATH = "body_problem_join_part";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI,
                 CONTENT_PATH);
+        public static final Uri JOIN_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, JOIN_CONTENT_PATH);
 
         public final static String COLUMN_BODY_PART = "body_part";
         public final static String COLUMN_DESCRIPTION = "column_description";
@@ -42,8 +44,10 @@ public class DataContract {
      */
     public interface PhysicalProblem extends BaseEntityColumns{
         public static final String CONTENT_PATH = "physical_problem";
+        public static final String JOIN_CONTENT_PATH = "physical_problem_join_bp";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, CONTENT_PATH);
+        public static final Uri JOIN_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, JOIN_CONTENT_PATH);
         public final static String COLUMN_BODY_PROBLEM= "body_problem";
         public final static String COLUMN_INTENSITY = "intensity";
     }
@@ -69,9 +73,11 @@ public class DataContract {
     public interface Training extends BaseEntityColumns {
 
         public static final String CONTENT_PATH = "training";
+        public static final String JOIN_CONTENT_PATH = "training_joing_exercises_problem";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI,
                 CONTENT_PATH);
+        public static final Uri JOIN_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, JOIN_CONTENT_PATH);
 
         public final static String COLUMN_PROBLEM_ID = "problem_id";
         public final static String COLUMN_EXERCISE_ID = "exercise_id";
