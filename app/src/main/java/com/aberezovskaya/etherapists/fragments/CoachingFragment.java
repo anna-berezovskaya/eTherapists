@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aberezovskaya.etherapists.App;
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.adapters.CoachingAdapter;
 import com.aberezovskaya.etherapists.providers.DataContract;
@@ -21,13 +20,11 @@ import java.util.Random;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func0;
 
 /**
  * Fragment to display daily exercises
  */
-public class CoachingFragment extends BaseFragment {
+public class CoachingFragment extends BaseLoaderFragment<Cursor> {
 
     private static final int EXERCISES_LOADER_ID = 0;
     private static final int EXERCISES_PER_DAY = 5;
@@ -37,7 +34,6 @@ public class CoachingFragment extends BaseFragment {
     /**
      * variables
      */
-    private Subscription mLoadExercisesSubscription = null;
     private CoachingAdapter mAdapter;
 
     @Nullable
@@ -59,37 +55,11 @@ public class CoachingFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        mLoadExercisesSubscription = App.instance().getObservablesCache().subscribeTo(KEY_LOAD_TASK,
-                new Func0<Observable<Cursor>>() {
-
-                    @Override
-                    public Observable<Cursor> call() {
-                        return getLoadExercisesObservable();
-                    }
-                }, mExercisesLoadingObesriver, true);
+        mLoaderSubscription = getSubscription(KEY_LOAD_TASK);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        unsubscribeLoaderTask(false);
-    }
-
-    private void unsubscribeLoaderTask(boolean removeObservable) {
-
-        if (removeObservable) {
-            App.instance().getObservablesCache().removeObservable(KEY_LOAD_TASK);
-        }
-
-        if (null != mLoadExercisesSubscription) {
-            mLoadExercisesSubscription.unsubscribe();
-            mLoadExercisesSubscription = null;
-        }
-    }
-
-
-    private Observable<Cursor> getLoadExercisesObservable() {
+    protected Observable<Cursor> getLoadObservable() {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
@@ -136,6 +106,19 @@ public class CoachingFragment extends BaseFragment {
 
         });
     }
+
+    @Override
+    protected Observer<Cursor> getObserver() {
+        return mExercisesLoadingObesriver;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unsubscribeLoaderTask(false);
+    }
+
+
 
     private Observer<Cursor> mExercisesLoadingObesriver = new Observer<Cursor>() {
 

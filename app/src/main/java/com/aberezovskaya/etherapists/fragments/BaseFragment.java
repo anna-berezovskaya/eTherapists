@@ -1,7 +1,14 @@
 package com.aberezovskaya.etherapists.fragments;
 
 
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
+
+import com.aberezovskaya.etherapists.App;
+
+import rx.Observable;
+import rx.Subscription;
+import rx.functions.Func0;
 
 /**
  * Base Fragment
