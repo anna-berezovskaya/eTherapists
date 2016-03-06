@@ -2,7 +2,6 @@ package com.aberezovskaya.etherapists.daos;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 
 import com.aberezovskaya.etherapists.providers.DataContract;
 
@@ -10,21 +9,34 @@ import com.aberezovskaya.etherapists.providers.DataContract;
 public class Exercise extends BaseEntity<Exercise> {
 
     private String mName = null;
-    private String mPic = null;
+    private String mImg = null;
     private int mDuration = -1;
 
     public Exercise(){super();}
     public Exercise(long id, long createDate, long modifyDate, String name, String pic, int duration){
         super(id, createDate, modifyDate);
         mName = name;
-        mPic = pic;
+        mImg = pic;
+        mDuration = duration;
+    }
+
+    public String getName(){
+        return mName;
+    }
+
+    public String getImg(){
+        return mImg;
+    }
+
+    public int getDuration(){
+        return mDuration;
     }
 
     @Override
     public Exercise fromCursor(Cursor c) {
          super.fromCursor(c);
         mName = getStringValue(c, DataContract.Exercise.COLUMN_TITLE);
-        mPic = getStringValue(c, DataContract.Exercise.COLUMN_IMAGE);
+        mImg = getStringValue(c, DataContract.Exercise.COLUMN_IMAGE);
         Integer duration = getIntValue(c, DataContract.Exercise.COLUMN_DURATION);
         mDuration = duration != null ? duration : -1;
 
@@ -35,7 +47,7 @@ public class Exercise extends BaseEntity<Exercise> {
     public ContentValues toContentValues(ContentValues cv) {
          super.toContentValues(cv);
         cv.put(DataContract.Exercise.COLUMN_TITLE, mName);
-        cv.put(DataContract.Exercise.COLUMN_IMAGE, mPic);
+        cv.put(DataContract.Exercise.COLUMN_IMAGE, mImg);
         cv.put(DataContract.Exercise.COLUMN_DURATION, mDuration);
 
         return cv;

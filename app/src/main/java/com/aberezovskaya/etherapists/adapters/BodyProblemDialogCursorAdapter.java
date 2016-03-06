@@ -32,6 +32,9 @@ public class BodyProblemDialogCursorAdapter extends CursorAdapter {
     // will return an Id of the bodyProblem selected
     @Override
     public Object getItem(int position) {
+
+        // Local variables have better performance for Android rather than method call for
+        // several times.
         Cursor cursor = getCursor();
         cursor.moveToPosition(position);
         return cursor.getInt((cursor.getColumnIndex(DataContract.BodyProblem.COLUMN_ID)));

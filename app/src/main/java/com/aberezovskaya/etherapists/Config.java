@@ -6,10 +6,12 @@ import com.aberezovskaya.etherapists.daos.Exercise;
 import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.daos.Training;
 
-import model.BodyPartEnum;
+import com.aberezovskaya.etherapists.model.BodyPartEnum;
 
 
 public class Config {
+
+    public static final String ASSETS_URI_EXERCISES = "file:///android_asset/exercises/";
 
     /**
      * predefined data arrays

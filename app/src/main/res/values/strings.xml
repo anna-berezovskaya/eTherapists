@@ -11,4 +11,7 @@
     <string name="right_shoulder">Right shoulder</string>
     <string name="back">Back</string>
     <string name="unknown">Unknown</string>
+
+    <!-- Exercises -->
+    <string name="min">min</string>
 </resources>

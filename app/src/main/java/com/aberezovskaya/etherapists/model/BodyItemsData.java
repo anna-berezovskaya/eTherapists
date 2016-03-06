@@ -1,9 +1,7 @@
-package model;
+package com.aberezovskaya.etherapists.model;
 
 
 import android.graphics.Point;
-
-import com.aberezovskaya.etherapists.providers.DataContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;

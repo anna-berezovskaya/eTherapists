@@ -2,7 +2,6 @@ package com.aberezovskaya.etherapists.fragments;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -19,7 +18,7 @@ import com.aberezovskaya.etherapists.dialogs.AddProblemDialogFragment;
 import com.aberezovskaya.etherapists.providers.DataContract;
 import com.aberezovskaya.etherapists.utils.ColorUtils;
 
-import model.BodyPartEnum;
+import com.aberezovskaya.etherapists.model.BodyPartEnum;
 
 /**
  * Fragment to display the body view and

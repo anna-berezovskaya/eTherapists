@@ -23,6 +23,10 @@
     <color name="seek_pane_color_green">#cedc42</color>
     <color name="seek_pane_color_blue">#5cbab2</color>
 
+    <!-- Coaching -->
+    <color name="coaching_circle_red">#fb7449</color>
+    <color name="coaching_circle_green">#cedc42</color>
+
     <!--Dialogs-->
     <color name="dlg_btn_color">#000000</color>
     <color name="dlg_controls_color">#cedc42</color>

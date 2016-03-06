@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.aberezovskaya.etherapists.App;
-
 /**
  * Contract class for use with the Content Provider
  */
@@ -74,10 +72,12 @@ public class DataContract {
 
         public static final String CONTENT_PATH = "training";
         public static final String JOIN_CONTENT_PATH = "training_joing_exercises_problem";
+        public static final String DAILY_TRAININGS_CONTENT_PATH = "training_daily";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI,
                 CONTENT_PATH);
         public static final Uri JOIN_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, JOIN_CONTENT_PATH);
+        public static final Uri DAILY_TRAININGS_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, DAILY_TRAININGS_CONTENT_PATH);
 
         public final static String COLUMN_PROBLEM_ID = "problem_id";
         public final static String COLUMN_EXERCISE_ID = "exercise_id";

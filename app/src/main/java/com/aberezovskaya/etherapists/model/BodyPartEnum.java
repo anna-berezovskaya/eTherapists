@@ -1,4 +1,4 @@
-package model;
+package com.aberezovskaya.etherapists.model;
 
 
 import com.aberezovskaya.etherapists.App;

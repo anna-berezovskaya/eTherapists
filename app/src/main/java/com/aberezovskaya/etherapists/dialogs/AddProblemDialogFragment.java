@@ -24,7 +24,7 @@ import com.aberezovskaya.etherapists.adapters.BodyProblemDialogCursorAdapter;
 import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
-import model.BodyPartEnum;
+import com.aberezovskaya.etherapists.model.BodyPartEnum;
 
 
 public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {

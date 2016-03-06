@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.aberezovskaya.etherapists.providers.DataContract;
 
-import model.BodyPartEnum;
+import com.aberezovskaya.etherapists.model.BodyPartEnum;
 
 public class BodyPart extends BaseEntity<BodyPart> {
 

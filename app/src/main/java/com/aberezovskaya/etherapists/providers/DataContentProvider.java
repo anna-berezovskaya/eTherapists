@@ -13,8 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.aberezovskaya.etherapists.App;
-
 
 /**
  * Content Provider to manage the database
@@ -38,6 +36,7 @@ public class DataContentProvider extends ContentProvider{
     private static final int PHYSICAL_PROBLEM_JOIN_CODE = 8;
     private static final int BODY_PROBLEM_JOIN_CODE = 9;
     private static final int TRAINING_JOIN_CODE = 10;
+    private static final int DAILY_TRAININGS_CODE = 11;
 
     public static final String SQL_PHYSICAL_PROBLEM = "SELECT " +
             DataContract.Tables.PHYSICAL_PROBLEM + "." + DataContract.PhysicalProblem.COLUMN_ID + ", " +
@@ -76,11 +75,19 @@ public class DataContentProvider extends ContentProvider{
             DataContract.Tables.EXERCISE + "." + "." + DataContract.Exercise.COLUMN_DURATION + ", " +
             "FROM " +DataContract.Tables.TRAINING + " " +
             "LEFT JOIN " +DataContract.Tables.BODY_PROBLEM + " ON " +DataContract.Tables.BODY_PROBLEM + "."
-            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " = " + DataContract.Tables.TRAINING +
-            "." + DataContract.Training.COLUMN_PROBLEM_ID +" " +
+            + DataContract.BodyProblem.COLUMN_ID + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID + " " +
             "LEFT JOIN " + DataContract.Tables.EXERCISE + " ON " + DataContract.Tables.EXERCISE + "." + DataContract.Exercise.COLUMN_ID + " = " +
             DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_EXERCISE_ID +
             ")";
+
+    public static final String SQL_DAILY_TRAININGS= "SELECT " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_ID + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_CREATE_DATE + ", " +
+            DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_MODIFY_DATE + ", " +
+            DataContract.Tables.TRAINING + ". "+ DataContract.Training.COLUMN_EXERCISE_ID + " " +
+            "FROM " +DataContract.Tables.TRAINING + " " +
+            "LEFT JOIN " +DataContract.Tables.PHYSICAL_PROBLEM + " ON " +DataContract.Tables.PHYSICAL_PROBLEM + "."
+            + DataContract.PhysicalProblem.COLUMN_BODY_PROBLEM + " = " + DataContract.Tables.TRAINING + "." + DataContract.Training.COLUMN_PROBLEM_ID;
 
 
     /** uri matcher initialization */
@@ -104,6 +111,7 @@ public class DataContentProvider extends ContentProvider{
         URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.PhysicalProblem.JOIN_CONTENT_PATH, PHYSICAL_PROBLEM_JOIN_CODE);
         URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.BodyProblem.JOIN_CONTENT_PATH, BODY_PROBLEM_JOIN_CODE);
         URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.Training.JOIN_CONTENT_PATH, TRAINING_JOIN_CODE);
+        URI_MATCHER.addURI(DataContract.AUTHORITY, DataContract.Training.DAILY_TRAININGS_CONTENT_PATH, DAILY_TRAININGS_CODE);
     }
 
 
@@ -198,6 +206,17 @@ public class DataContentProvider extends ContentProvider{
                      query.append(" WHERE ");
                      query.append(selection);
                  }
+                cursor = db.rawQuery(query.toString(), selectionArgs);
+            }
+            break;
+
+            case DAILY_TRAININGS_CODE:{
+                StringBuilder query = new StringBuilder();
+                query.append(SQL_DAILY_TRAININGS);
+                if (selection != null ){
+                    query.append(" WHERE ");
+                    query.append(selection);
+                }
                 cursor = db.rawQuery(query.toString(), selectionArgs);
             }
             break;
