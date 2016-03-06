@@ -1,5 +1,6 @@
 package com.aberezovskaya.etherapists.fragments;
 
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.aberezovskaya.etherapists.R;
+import com.aberezovskaya.etherapists.daos.BaseEntity;
+import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.dialogs.AddProblemDialogFragment;
+import com.aberezovskaya.etherapists.providers.DataContract;
 import com.aberezovskaya.etherapists.utils.ColorUtils;
 
 import model.BodyPartEnum;
@@ -21,7 +25,7 @@ import model.BodyPartEnum;
  * Fragment to display the body view and
  * add new physical problems
  */
-public class BodyViewFragment extends BaseFragment {
+public class BodyViewFragment extends BaseFragment implements AddProblemDialogFragment.AddProblemDialogListener{
 
     private static final String CREATE_PHYSICAL_PROBLEM_DIALOG = "create_physical_problem_dialog";
 
@@ -88,8 +92,19 @@ public class BodyViewFragment extends BaseFragment {
 
     private void showAddProblemDialog(BodyPartEnum bodyPart) {
         AddProblemDialogFragment fragment = AddProblemDialogFragment.getInstance(bodyPart.getTag());
+        fragment.setListener(this);
         fragment.show(getFragmentManager(), CREATE_PHYSICAL_PROBLEM_DIALOG);
 
     }
 
+    @Override
+    public void onNegativeBtnClick() {
+    }
+
+    @Override
+    public void onPositiveBtnClick(PhysicalProblem problem) {
+        ContentValues cv = new ContentValues();
+        BaseEntity.prepareForInsert(problem.toContentValues(cv));
+        getActivity().getContentResolver().insert(DataContract.PhysicalProblem.CONTENT_URI, cv);
+    }
 }

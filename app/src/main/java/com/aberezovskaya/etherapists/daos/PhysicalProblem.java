@@ -41,4 +41,12 @@ public class PhysicalProblem extends BaseEntity<PhysicalProblem> {
     public int getIntensity(){
         return mIntensity;
     }
+
+    public void setIntensity(int intensity){
+        mIntensity = intensity;
+    }
+
+    public void setBodyProblemId(int id){
+        mBodyProblemId = id;
+    }
 }
