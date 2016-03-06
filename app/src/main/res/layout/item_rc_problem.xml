@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/rc_bcg_padding_vertical"
+        android:clipToPadding="false"
         android:paddingBottom="@dimen/rc_bcg_padding_vertical">
         <TextView
             android:id="@+id/tv_problem_title"
