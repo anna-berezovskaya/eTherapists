@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.fragments.BodyViewFragment;
 
-
+/**
+ * Shows
+ */
 public class BodyViewActivity extends AppCompatActivity{
 
     @Override

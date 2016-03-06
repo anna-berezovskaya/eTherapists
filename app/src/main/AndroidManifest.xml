@@ -11,16 +11,16 @@
 
         <activity android:name=".activities.DashboardActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.BodyViewActivity"/>
-        
+        <activity android:name=".activities.BodyViewActivity" />
+
         <provider
-            android:authorities="com.aberezovskaya.etherapists.eTherapistsDataProvider"
             android:name=".providers.DataContentProvider"
-            android:exported="false"/>
+            android:authorities="com.aberezovskaya.etherapists.eTherapistsDataProvider"
+            android:exported="false" />
 
     </application>
 

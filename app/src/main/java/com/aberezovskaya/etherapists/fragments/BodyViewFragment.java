@@ -30,7 +30,6 @@ public class BodyViewFragment extends BaseFragment implements AddProblemDialogFr
 
     private ImageView mColorMap;
     private ImageView mImage;
-    private BodyPartEnum mPartClicked;
 
     @Nullable
     @Override
@@ -58,24 +57,27 @@ public class BodyViewFragment extends BaseFragment implements AddProblemDialogFr
                         int tolerance = 25;
                         BodyPartEnum bodyPartClicked = BodyPartEnum.UNKNOWN;
                         int color = getClickPixelColor(evX, evY);
-                        if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_head),color, tolerance)){
-                            bodyPartClicked = BodyPartEnum.HEAD;
-                        } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_neck),color, tolerance)){
-                            bodyPartClicked = BodyPartEnum.NECK;
-                        } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_back),color, tolerance)){
-                            bodyPartClicked = BodyPartEnum.BACK;
-                        } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_shoulder_left),color, tolerance)){
-                            bodyPartClicked = BodyPartEnum.SHOULDER_LEFT;
-                        } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_shoulder_right),color, tolerance)){
-                            bodyPartClicked = BodyPartEnum.SHOULDER_RIGHT;
-                        }
+                        if (color  != -1) {
+                            if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_head), color, tolerance)) {
+                                bodyPartClicked = BodyPartEnum.HEAD;
+                            } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_neck), color, tolerance)) {
+                                bodyPartClicked = BodyPartEnum.NECK;
+                            } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_back), color, tolerance)) {
+                                bodyPartClicked = BodyPartEnum.BACK;
+                            } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_shoulder_left), color, tolerance)) {
+                                bodyPartClicked = BodyPartEnum.SHOULDER_LEFT;
+                            } else if (ColorUtils.closeMatch(ContextCompat.getColor(getContext(), R.color.color_shoulder_right), color, tolerance)) {
+                                bodyPartClicked = BodyPartEnum.SHOULDER_RIGHT;
+                            }
 
-                        if (bodyPartClicked != BodyPartEnum.UNKNOWN){
-                            showAddProblemDialog(bodyPartClicked);
+                            if (bodyPartClicked != BodyPartEnum.UNKNOWN) {
+                                showAddProblemDialog(bodyPartClicked);
+                            }
                         }
                         return true;
+                    default:
+                        return false;
                 }
-                return false;
             }
         });
 
@@ -85,7 +87,11 @@ public class BodyViewFragment extends BaseFragment implements AddProblemDialogFr
         mColorMap.setDrawingCacheEnabled(true);
         Bitmap hotspots = Bitmap.createBitmap(mColorMap.getDrawingCache());
         mColorMap.setDrawingCacheEnabled(false);
-        return hotspots.getPixel(x, y);
+        if (hotspots.getWidth() < x && hotspots.getHeight() < y) {
+            return hotspots.getPixel(x, y);
+        } else {
+            return -1;
+        }
 
     }
 

@@ -4,6 +4,7 @@
 
     <style name="AppCompatActionBarStyle" parent = "ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/actionBarBackround</item>
+        <item name="colorControlNormal">@color/dlg_btn_color</item>
     </style>
 
     <style name="AppCompatCheckedTextViewStyle" parent="Theme.AppCompat.Light">
@@ -39,6 +40,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@drawable/blurred_bg</item>
+        <item name="actionBarStyle">@style/AppCompatActionBarStyle</item>
         <item name="android:actionBarStyle">@style/AppCompatActionBarStyle</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

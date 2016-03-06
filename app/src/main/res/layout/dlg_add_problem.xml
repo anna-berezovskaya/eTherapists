@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@android:string/cancel"
-            android:textColor="@color/seek_pane_color_green"
+            android:textColor="@color/dlg_btn_color"
             style="?attr/buttonBarNegativeButtonStyle"/>
 
         <android.support.v7.widget.AppCompatButton
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@android:string/ok"
-            android:textColor="@color/seek_pane_color_green"
+            android:textColor="@color/dlg_btn_color"
             android:layout_toStartOf="@id/btn_cancel"
             style="?attr/buttonBarPositiveButtonStyle"/>
 
