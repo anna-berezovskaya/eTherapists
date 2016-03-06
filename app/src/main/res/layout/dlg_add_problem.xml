@@ -35,6 +35,8 @@
             android:id="@+id/seek_intensity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_normal"
+            android:layout_marginStart="@dimen/padding_normal"
             android:theme="@style/AppCompatSeekBarStyle"
             android:layout_below="@id/rc_separator_view"
             android:padding="@dimen/rc_seekbar_bcg_padding"
