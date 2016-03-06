@@ -4,6 +4,7 @@ package com.aberezovskaya.etherapists.dialogs;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -25,16 +26,23 @@ import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
 import com.aberezovskaya.etherapists.model.BodyPartEnum;
+import com.aberezovskaya.etherapists.utils.ObservableLoader;
+
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.Subscription;
 
 
-public class AddProblemDialogFragment extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AddProblemDialogFragment extends AppCompatDialogFragment {
 
     private static final String TAG = AddProblemDialogFragment.class.getSimpleName();
 
     private static final String ARG_BODY_PART = "body_part";
-    private static final int PROBLEM_LOADER_ID = 0;
+    private static String KEY_BODY_PROBLEMS_LOADER ="body_problems_loader_task";
 
     private AddProblemDialogListener mListener;
+    private ObservableLoader<Cursor> mLoader;
 
     private BodyPartEnum mBodyPart = null;
     private ListView mProblemsList;
@@ -99,7 +107,8 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
                         dismiss();
                     }
                 });
-                getLoaderManager().restartLoader(PROBLEM_LOADER_ID, null, this);
+                mLoader = new ObservableLoader<Cursor>(getLoadObservable(), mProblemsObserver);
+                mLoader.getSubscription(KEY_BODY_PROBLEMS_LOADER);
                 return builder.create();
             }
         }
@@ -108,23 +117,44 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment implements
         return super.onCreateDialog(savedInstanceState);
     }
 
+    protected Observable<Cursor> getLoadObservable() {
+        return Observable.create(new Observable.OnSubscribe<Cursor>() {
+            @Override
+            public void call(Subscriber<? super Cursor> subscriber) {
+                String selection = DataContract.BodyPart.COLUMN_NAME + " = ?";
+                Cursor cursor = getContext().getContentResolver().query(DataContract.BodyProblem.JOIN_CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
+                if (cursor != null) {
+                    subscriber.onNext(cursor);
+                    subscriber.onCompleted();
+                } else {
+                    subscriber.onError(new SQLiteException());
+                }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String selection = DataContract.BodyPart.COLUMN_NAME + " = ?";
-        return new CursorLoader(getActivity().getApplicationContext(), DataContract.BodyProblem.JOIN_CONTENT_URI, null, selection, new String[]{mBodyPart.getTag()}, null);
+            }
+        });
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.getCount() > 0) {
-            BodyProblemDialogCursorAdapter adapter = new BodyProblemDialogCursorAdapter(getContext(), data, false);
+    private Observer<Cursor> mProblemsObserver = new Observer<Cursor>() {
+
+        @Override
+        public void onCompleted() {
+           mLoader.unsubscribeLoaderTask(true);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mLoader.unsubscribeLoaderTask(true);
+
+        }
+
+        @Override
+        public void onNext(Cursor aCursor) {
+
+            BodyProblemDialogCursorAdapter adapter = new BodyProblemDialogCursorAdapter(getContext(), aCursor, false);
             mProblemsList.setAdapter(adapter);
             mProblemsList.setItemChecked(0, true);
         }
-    }
+    };
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }
+
 }

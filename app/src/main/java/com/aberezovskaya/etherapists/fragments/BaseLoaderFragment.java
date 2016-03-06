@@ -45,4 +45,5 @@ public abstract class BaseLoaderFragment<T> extends BaseFragment{
             mLoaderSubscription = null;
         }
     }
+
 }
