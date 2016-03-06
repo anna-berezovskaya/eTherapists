@@ -95,7 +95,7 @@ public class BodyViewFragment extends BaseFragment implements AddProblemDialogFr
         invertMatrix.mapPoints(inverted);
         int xInv= (int)inverted[0];
         int yInv = (int)inverted[1];
-        if (x > bitmap.getWidth()-1 || y > bitmap.getHeight()-1){
+        if (xInv > bitmap.getWidth()-1 || xInv <0 || yInv <0 || yInv > bitmap.getHeight()-1){
             return -1;
         }
             return bitmap.getPixel(xInv, yInv);

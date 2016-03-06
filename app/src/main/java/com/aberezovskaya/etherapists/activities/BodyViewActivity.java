@@ -21,6 +21,7 @@ public class BodyViewActivity extends AppCompatActivity{
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new BodyViewFragment()).commit();
