@@ -124,11 +124,12 @@ public class CoachingFragment extends BaseLoaderFragment<Cursor> {
 
         @Override
         public void onCompleted() {
-
+            unsubscribeLoaderTask(false);
         }
 
         @Override
         public void onError(Throwable e) {
+            unsubscribeLoaderTask(false);
 
         }
 
