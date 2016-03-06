@@ -2,6 +2,9 @@ package com.aberezovskaya.etherapists.fragments;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -84,15 +87,18 @@ public class BodyViewFragment extends BaseFragment implements AddProblemDialogFr
     }
 
     public int getClickPixelColor(int x, int y) {
-        mColorMap.setDrawingCacheEnabled(true);
-        Bitmap hotspots = Bitmap.createBitmap(mColorMap.getDrawingCache());
-        mColorMap.setDrawingCacheEnabled(false);
-        if (hotspots.getWidth() < x && hotspots.getHeight() < y) {
-            return hotspots.getPixel(x, y);
-        } else {
+        Drawable imgDrawable = mColorMap.getDrawable();
+        Bitmap bitmap = ((BitmapDrawable)imgDrawable).getBitmap();
+        Matrix invertMatrix = new Matrix();
+        mColorMap.getImageMatrix().invert(invertMatrix);
+        float[] inverted = new float[]{x, y};
+        invertMatrix.mapPoints(inverted);
+        int xInv= (int)inverted[0];
+        int yInv = (int)inverted[1];
+        if (x > bitmap.getWidth()-1 || y > bitmap.getHeight()-1){
             return -1;
         }
-
+            return bitmap.getPixel(xInv, yInv);
     }
 
     private void showAddProblemDialog(BodyPartEnum bodyPart) {
