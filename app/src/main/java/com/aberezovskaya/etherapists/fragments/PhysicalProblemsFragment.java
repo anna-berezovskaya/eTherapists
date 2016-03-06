@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.adapters.PhysicalProblemsAdapter;
 import com.aberezovskaya.etherapists.providers.DataContract;
+import com.aberezovskaya.etherapists.utils.ObservableLoader;
 import com.aberezovskaya.etherapists.utils.VerticalSpacingItemDecorator;
 
 import java.util.Random;
@@ -28,7 +29,7 @@ import rx.Subscriber;
 /**
  * Fragment to manage currently selected physical problems
  */
-public class PhysicalProblemsFragment extends BaseLoaderFragment<Cursor>  {
+public class PhysicalProblemsFragment extends BaseFragment  {
 
 
     /**
@@ -38,6 +39,7 @@ public class PhysicalProblemsFragment extends BaseLoaderFragment<Cursor>  {
 
     private RecyclerView mRecycler;
     private PhysicalProblemsAdapter mAdapter;
+    private ObservableLoader<Cursor> mLoader;
 
     @Nullable
     @Override
@@ -55,22 +57,22 @@ public class PhysicalProblemsFragment extends BaseLoaderFragment<Cursor>  {
         mRecycler.addItemDecoration(new VerticalSpacingItemDecorator(getActivity(), (int) getResources().getDimension(R.dimen.rc_item_spacing)));
         mAdapter = new PhysicalProblemsAdapter(getActivity());
         mRecycler.setAdapter(mAdapter);
+        mLoader = new ObservableLoader<>(getLoadObservable(), mProblemsObserver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mLoaderSubscription = getSubscription(KEY_PH_PROBLEMS_LOADING_TASK);
+        mLoader.getSubscription(KEY_PH_PROBLEMS_LOADING_TASK);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unsubscribeLoaderTask(false);
+        mLoader.unsubscribeLoaderTask(false);
     }
 
-    @Override
-    protected Observable<Cursor> getLoadObservable() {
+    private Observable<Cursor> getLoadObservable() {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
@@ -86,21 +88,17 @@ public class PhysicalProblemsFragment extends BaseLoaderFragment<Cursor>  {
         });
     }
 
-    @Override
-    protected Observer<Cursor> getObserver() {
-        return mProblemsObserver;
-    }
 
     private Observer<Cursor> mProblemsObserver = new Observer<Cursor>() {
 
         @Override
         public void onCompleted() {
-            unsubscribeLoaderTask(true);
+            mLoader.unsubscribeLoaderTask(true);
         }
 
         @Override
         public void onError(Throwable e) {
-            unsubscribeLoaderTask(true);
+            mLoader.unsubscribeLoaderTask(true);
 
         }
 

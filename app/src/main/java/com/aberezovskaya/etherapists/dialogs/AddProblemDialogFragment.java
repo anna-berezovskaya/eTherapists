@@ -12,9 +12,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -86,12 +88,11 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment {
                 mProblemsList.setClickable(true);
                 mProblemsList.setChoiceMode(ListViewCompat.CHOICE_MODE_SINGLE);
                 mIntensityBar = (SeekBar) view.findViewById(R.id.seek_intensity);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle);
-                builder.setView(view);
-                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                AppCompatButton btnOk = (AppCompatButton) view.findViewById(R.id.btn_ok);
+                AppCompatButton btnCancel = (AppCompatButton) view.findViewById(R.id.btn_cancel);
+                btnOk.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                    public void onClick(View v) {
                         if (mListener != null) {
                             PhysicalProblem problem = new PhysicalProblem();
 
@@ -99,14 +100,19 @@ public class AddProblemDialogFragment extends AppCompatDialogFragment {
                             problem.setIntensity(mIntensityBar.getProgress());
                             mListener.onPositiveBtnClick(problem);
                         }
-                    }
-                });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
                         dismiss();
                     }
                 });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle);
+                builder.setView(view);
                 mLoader = new ObservableLoader<Cursor>(getLoadObservable(), mProblemsObserver);
                 mLoader.getSubscription(KEY_BODY_PROBLEMS_LOADER);
                 return builder.create();

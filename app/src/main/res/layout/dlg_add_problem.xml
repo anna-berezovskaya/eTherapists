@@ -49,4 +49,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <RelativeLayout
+        android:layout_marginEnd="@dimen/dlg_elem_bcg_padding_horisontal"
+        android:layout_marginRight="@dimen/dlg_elem_bcg_padding_horisontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?attr/buttonBarStyle">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel"
+            android:textColor="@color/seek_pane_color_green"
+            style="?attr/buttonBarNegativeButtonStyle"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok"
+            android:textColor="@color/seek_pane_color_green"
+            android:layout_toStartOf="@id/btn_cancel"
+            style="?attr/buttonBarPositiveButtonStyle"/>
+
+
+    </RelativeLayout>
+
 </LinearLayout>

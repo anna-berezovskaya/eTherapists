@@ -22,7 +22,6 @@ public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHold
         }
         mCursor = cursor;
         notifyDataSetChanged();
-        mCursor.moveToFirst();
         return mCursor;
     }
 

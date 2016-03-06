@@ -3,13 +3,17 @@ package com.aberezovskaya.etherapists.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.aberezovskaya.etherapists.R;
@@ -24,6 +28,9 @@ import com.aberezovskaya.etherapists.fragments.StubFragment;
  * tabs and controls fragments
  */
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    private static final String ARG_FRAGMENT = "fragment_arg";
 
 
     /**
@@ -66,6 +73,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         };
 
 
+        /**
+         * variables
+         */
         private String mTag;
 
         Fragments(String tag) {
@@ -79,23 +89,39 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             return mTag;
         }
 
+        public static Fragments findFragmentByTag(String tag) {
+            for (Fragments fragment : Fragments.values()) {
+                if (fragment.getTag().equals(tag)) {
+                    return fragment;
+                }
+            }
+            return null;
+        }
+
     }
 
     private TabLayout mTabLayout;
     private FloatingActionButton mAddButton;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mAddButton = (FloatingActionButton) findViewById(R.id.btn_add);
         mAddButton.setOnClickListener(this);
-        setupTabs();
+        String selectedFragment = null;
+        if (savedInstanceState != null && savedInstanceState.containsKey(ARG_FRAGMENT)) {
+            selectedFragment = savedInstanceState.getString(ARG_FRAGMENT);
+        }
+        setupTabs(selectedFragment);
     }
 
-    private void setupTabs() {
+    private void setupTabs(String selectedTab) {
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -119,11 +145,36 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.play).setTag(Fragments.TAB_COACHING), true);
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.body).setTag(Fragments.TAB_BODY));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.scores).setTag(Fragments.TAB_SCORES));
 
+        int tabCount = mTabLayout.getTabCount();
+        if (!TextUtils.isEmpty(selectedTab)) {
+            Fragments selectedFragment = Fragments.findFragmentByTag(selectedTab);
+            if (selectedFragment != null) {
+                for (int i = 0; i < tabCount; i++) {
+                    TabLayout.Tab tab = mTabLayout.getTabAt(i);
+                    if (tab != null && tab.getTag() != null){
+                        if ((tab.getTag()).equals(selectedFragment)){
+                            tab.select();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        TabLayout.Tab tab = mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition());
+        if (tab != null && tab.getTag() != null) {
+            outState.putString(ARG_FRAGMENT, ((Fragments) tab.getTag()).getTag());
+        }
     }
 
     protected void replaceFragment(Fragment fragment) {
@@ -134,8 +185,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         ft.commit();
     }
 
-    private void setupAddButton(Fragments fragments){
-        if (fragments.equals(Fragments.TAB_BODY)){
+    private void setupAddButton(Fragments fragments) {
+        if (fragments.equals(Fragments.TAB_BODY)) {
             mAddButton.setVisibility(View.VISIBLE);
         } else {
             mAddButton.setVisibility(View.GONE);

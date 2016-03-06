@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.aberezovskaya.etherapists.R;
 import com.aberezovskaya.etherapists.adapters.CoachingAdapter;
 import com.aberezovskaya.etherapists.providers.DataContract;
+import com.aberezovskaya.etherapists.utils.ObservableLoader;
 import com.aberezovskaya.etherapists.utils.VerticalSpacingItemDecorator;
 
 import java.util.Random;
@@ -24,11 +25,13 @@ import rx.Subscriber;
 /**
  * Fragment to display daily exercises
  */
-public class CoachingFragment extends BaseLoaderFragment<Cursor> {
+public class CoachingFragment extends BaseFragment {
 
     private static final int EXERCISES_LOADER_ID = 0;
     private static final int EXERCISES_PER_DAY = 5;
     private static final String KEY_LOAD_TASK = "load_task";
+
+    private ObservableLoader<Cursor> mLoader;
 
 
     /**
@@ -46,19 +49,20 @@ public class CoachingFragment extends BaseLoaderFragment<Cursor> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rc = (RecyclerView) view.findViewById(R.id.rc_exercises);
-        mAdapter = new CoachingAdapter(getContext());
+        mAdapter = new CoachingAdapter(getActivity());
         rc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rc.setAdapter(mAdapter);
         rc.addItemDecoration(new VerticalSpacingItemDecorator(getActivity(), (int) getResources().getDimension(R.dimen.rc_item_spacing)));
+        mLoader = new ObservableLoader<>(getLoadObservable(), mExercisesLoadingObesriver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mLoaderSubscription = getSubscription(KEY_LOAD_TASK);
+        mLoader.getSubscription(KEY_LOAD_TASK);
     }
 
-    @Override
+
     protected Observable<Cursor> getLoadObservable() {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
@@ -108,14 +112,9 @@ public class CoachingFragment extends BaseLoaderFragment<Cursor> {
     }
 
     @Override
-    protected Observer<Cursor> getObserver() {
-        return mExercisesLoadingObesriver;
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        unsubscribeLoaderTask(false);
+        mLoader.unsubscribeLoaderTask(false);
     }
 
 
@@ -124,17 +123,18 @@ public class CoachingFragment extends BaseLoaderFragment<Cursor> {
 
         @Override
         public void onCompleted() {
-            unsubscribeLoaderTask(false);
+            mLoader.unsubscribeLoaderTask(true);
         }
 
         @Override
         public void onError(Throwable e) {
-            unsubscribeLoaderTask(false);
+            mLoader.unsubscribeLoaderTask(true);
 
         }
 
         @Override
         public void onNext(Cursor aCursor) {
+
             mAdapter.swapCursor(aCursor);
         }
     };
