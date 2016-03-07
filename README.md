@@ -78,7 +78,7 @@ Since the picture of the body view is not big and we don't have requirements to 
 the click-responce or scale the image, I used the most simple way to solve the problem of clickable areas.
 I've made another "map" picture, where every area has another color, and simply put it on the top of the 
 body picture (which I merged from pieces provided).
-I'm retrieving the click coords, convert it to the colored bitmap coords (which resised together with the original
+I'm retrieving the click coords, convert it to the colored bitmap coords (which resized together with the original
 image by the android system)
 and than detect the area of click.
 
