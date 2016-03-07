@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.daos.BodyPart;
-import com.aberezovskaya.etherapists.daos.BodyProblem;
 import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 

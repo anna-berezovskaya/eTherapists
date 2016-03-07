@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.daos.BodyProblem;
-import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
 public class BodyProblemDialogCursorAdapter extends CursorAdapter {

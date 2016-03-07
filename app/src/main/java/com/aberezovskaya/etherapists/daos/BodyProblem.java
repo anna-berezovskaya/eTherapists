@@ -6,6 +6,9 @@ import android.database.Cursor;
 
 import com.aberezovskaya.etherapists.providers.DataContract;
 
+/**
+ * body problem daos object
+ */
 public class BodyProblem extends BaseEntity<BodyProblem> {
 
     private long mBodyPartId;
@@ -18,7 +21,7 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
 
     public BodyProblem(Long id, Long createDate, Long updateDate,
-                                    Long bodyPart, String description) {
+                       Long bodyPart, String description) {
 
         super(id, createDate, updateDate);
         mBodyPartId = bodyPart;
@@ -43,11 +46,11 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
         return getThis();
     }
 
-    public Long getBodyPart(){
+    public Long getBodyPart() {
         return mBodyPartId;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return mDescription;
     }
 
@@ -61,10 +64,10 @@ public class BodyProblem extends BaseEntity<BodyProblem> {
 
     @Override
     public ContentValues toContentValues(ContentValues cv) {
-         super.toContentValues(cv);
-            cv.put(DataContract.BodyProblem.COLUMN_BODY_PART, mBodyPartId);
+        super.toContentValues(cv);
+        cv.put(DataContract.BodyProblem.COLUMN_BODY_PART, mBodyPartId);
 
-        if (mDescription != null && !mDescription.isEmpty()){
+        if (mDescription != null && !mDescription.isEmpty()) {
             cv.put(DataContract.BodyProblem.COLUMN_DESCRIPTION, mDescription);
         }
 

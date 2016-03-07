@@ -6,14 +6,19 @@ import android.database.Cursor;
 
 import com.aberezovskaya.etherapists.providers.DataContract;
 
+/**
+ * training daos object
+ */
 public class Training extends BaseEntity<Training> {
 
     private long mProblemId = -1;
     private long mExerciseId = -1;
 
-    public Training(){super();}
+    public Training() {
+        super();
+    }
 
-    public Training(long id, long createDate, long modifyDate, long problemId, long exerciseid){
+    public Training(long id, long createDate, long modifyDate, long problemId, long exerciseid) {
         super(id, createDate, modifyDate);
         mProblemId = problemId;
         mExerciseId = exerciseid;
@@ -21,7 +26,7 @@ public class Training extends BaseEntity<Training> {
 
     @Override
     public Training fromCursor(Cursor c) {
-         super.fromCursor(c);
+        super.fromCursor(c);
         Long problemId = getLongValue(c, DataContract.Training.COLUMN_PROBLEM_ID);
         Long exerciseId = getLongValue(c, DataContract.Training.COLUMN_EXERCISE_ID);
 
@@ -33,7 +38,7 @@ public class Training extends BaseEntity<Training> {
 
     @Override
     public ContentValues toContentValues(ContentValues cv) {
-         super.toContentValues(cv);
+        super.toContentValues(cv);
         cv.put(DataContract.Training.COLUMN_PROBLEM_ID, mProblemId);
         cv.put(DataContract.Training.COLUMN_EXERCISE_ID, mExerciseId);
         return cv;

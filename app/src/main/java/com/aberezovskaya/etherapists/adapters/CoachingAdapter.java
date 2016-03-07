@@ -2,8 +2,6 @@ package com.aberezovskaya.etherapists.adapters;
 
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -52,7 +50,8 @@ public class CoachingAdapter extends BaseRecyclerCursorAdapter<CoachingAdapter.C
         }
 
         if (exercise.getDuration() != -1) {
-            holder.mDurationText.setText(String.valueOf(exercise.getDuration()) + " " + getContext().getString(R.string.min));
+            String message = String.valueOf(exercise.getDuration()) + " " + getContext().getString(R.string.min);
+            holder.mDurationText.setText(message);
         }
     }
 

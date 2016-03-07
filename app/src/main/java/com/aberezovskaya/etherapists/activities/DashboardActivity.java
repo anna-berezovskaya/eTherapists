@@ -1,9 +1,7 @@
 package com.aberezovskaya.etherapists.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -17,7 +15,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.adapters.BaseRecyclerCursorAdapter;
 import com.aberezovskaya.etherapists.fragments.BaseFragment;
 import com.aberezovskaya.etherapists.fragments.CoachingFragment;
 import com.aberezovskaya.etherapists.fragments.PhysicalProblemsFragment;
@@ -105,15 +102,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
      */
     private TabLayout mTabLayout;
     private FloatingActionButton mAddButton;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mAddButton = (FloatingActionButton) findViewById(R.id.btn_add);
         mAddButton.setOnClickListener(this);

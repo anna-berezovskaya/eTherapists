@@ -3,11 +3,12 @@ package com.aberezovskaya.etherapists.daos;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import com.aberezovskaya.etherapists.providers.DataContract;
-
 import com.aberezovskaya.etherapists.model.BodyPartEnum;
 
+/**
+ * body part daos
+ */
 public class BodyPart extends BaseEntity<BodyPart> {
 
     private BodyPartEnum mBodyPart = null;
