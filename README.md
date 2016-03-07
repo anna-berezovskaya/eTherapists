@@ -40,7 +40,8 @@ Database scheme.png can be found in the root of the project
 <b> 2. Comments on resources </b>
 After exploring the assets folder I supposed, that resources provided were selected for the xhdpi density. 
 It's too small to be xxhdpi, but it's unnecessary to put the image resources under the less resolution as well.
-Android will scale resources on the higher density screen, what may influence on user's feeling from application. 
+Android will scale resources on the higher density screen, which may cause blurred images
+and would influence on user's feeling about the application. 
 So, it's better to downscale them. 
 
 For the real product, I'd sudgest to use appropriate resources at least for  xhdpi and xxhdpi densities. 
