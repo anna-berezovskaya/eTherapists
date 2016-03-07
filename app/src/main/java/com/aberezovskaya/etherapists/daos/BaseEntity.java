@@ -5,9 +5,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 
-import com.aberezovskaya.etherapists.providers.DataContentProvider;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
+/**
+ * parent class for daos entity
+ * manages basic fields id, create_date and modify_date
+ *
+ * @param <T> - daos object type
+ */
 public abstract class BaseEntity<T extends BaseEntity<T>> {
 
     private Long mId;
@@ -51,7 +56,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
 
     public T setCreateDate(Long createDate) {
 
-       mCreateDate = createDate;
+        mCreateDate = createDate;
         return getThis();
     }
 
@@ -67,15 +72,17 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     /**
+     * inserts base entity fields into cv.
+     * allows to predefind date fields
      *
-     * @param cv
-     * @return
+     * @param cv - content values to put the object's fields
+     * @return resulting content values containing the object
      */
     public static ContentValues prepareForUpdate(ContentValues cv, boolean forceSettUpdateDate) {
 
         cv.remove(DataContract.BaseEntityColumns.COLUMN_CREATE_DATE);
 
-        if((true == forceSettUpdateDate) || (!cv.containsKey(DataContract.BaseEntityColumns.COLUMN_MODIFY_DATE)) ){
+        if ((forceSettUpdateDate) || (!cv.containsKey(DataContract.BaseEntityColumns.COLUMN_MODIFY_DATE))) {
 
             cv.put(DataContract.BaseEntityColumns.COLUMN_MODIFY_DATE, System.currentTimeMillis());
         }
@@ -84,9 +91,11 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     /**
+     * inserts basic columns into the cv
      *
-     * @param cv
-     * @return
+     * @param cv - content values to process
+     * @return content values with the inserted
+     * basic columns
      */
     public static ContentValues prepareForInsert(ContentValues cv) {
 
@@ -94,14 +103,17 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     /**
+     * prepares for insert but does
+     * not change the created date
+     * if the parameter already contains this field
      *
-     * @param cv
-     * @return
+     * @param cv content values parameter to prepare
+     * @return Content values prepared
      */
     public static ContentValues prepareForInsert(ContentValues cv, boolean forceSetCreateDate) {
 
         long currTime = System.currentTimeMillis();
-        long createDate = (true == forceSetCreateDate) ? currTime :
+        long createDate = (forceSetCreateDate) ? currTime :
                 cv.containsKey(DataContract.BaseEntityColumns.COLUMN_CREATE_DATE) ? cv.getAsLong(DataContract.BaseEntityColumns.COLUMN_CREATE_DATE) : currTime;
 
         cv.put(DataContract.BaseEntityColumns.COLUMN_CREATE_DATE, createDate);
@@ -111,8 +123,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     /**
-     *
-     * @param cv
+     * @param cv - content values to insert the fields
      */
     public ContentValues toContentValues(ContentValues cv) {
 
@@ -124,8 +135,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     /**
-     *
-     * @return
+     * @return the instance of the daos object
      */
     @SuppressWarnings("unchecked")
     protected T getThis() {
@@ -134,39 +144,37 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     }
 
     @Nullable
-    protected static Long getLongValue( Cursor c, String columnName) {
+    protected static Long getLongValue(Cursor c, String columnName) {
 
         int columnIndex = c.getColumnIndex(columnName);
 
-        if(columnIndex >= 0) {
+        if (columnIndex >= 0) {
 
             return c.getLong(columnIndex);
-        }
-        else {
+        } else {
 
             return null;
         }
     }
 
     @Nullable
-    protected static Integer getIntValue( Cursor c, String columnName) {
+    protected static Integer getIntValue(Cursor c, String columnName) {
 
         int columnIndex = c.getColumnIndex(columnName);
 
-        if(columnIndex >= 0) {
+        if (columnIndex >= 0) {
 
             return c.getInt(columnIndex);
-        }
-        else {
+        } else {
 
             return null;
         }
     }
 
     @Nullable
-    protected static String getStringValue( Cursor c, String columnName){
+    protected static String getStringValue(Cursor c, String columnName) {
         int columnIndex = c.getColumnIndex(columnName);
-        if (columnIndex >= 0){
+        if (columnIndex >= 0) {
             return c.getString(columnIndex);
         } else {
             return null;

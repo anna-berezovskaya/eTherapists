@@ -10,6 +10,7 @@ public class ColorUtils {
         return (int)context.getResources().getDisplayMetrics().density * dp;
     }
 
+    // match the color to predefined with selected tolerance
     public static boolean closeMatch (int color1, int color2, int tolerance) {
         if ((int) Math.abs (Color.red(color1) - Color.red (color2)) > tolerance )
             return false;

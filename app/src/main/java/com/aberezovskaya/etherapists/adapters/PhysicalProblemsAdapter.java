@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.daos.BodyPart;
-import com.aberezovskaya.etherapists.daos.BodyProblem;
 import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
+/**
+ * adapter to display physical problems item
+ */
 
 public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalProblemsAdapter.PhysicalProblemsViewHolder> {
 
@@ -40,13 +41,13 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
             holder.mProblemTitle.setText(bpName);
         }
 
-        if (!TextUtils.isEmpty(bodyProblemName)){
+        if (!TextUtils.isEmpty(bodyProblemName)) {
             holder.mProblemDescription.setText(bodyProblemName);
         }
 
         holder.mProblemIntensity.setProgress(problem.getIntensity() != -1 ? problem.getIntensity() : 0);
 
-        switch(position % 3){
+        switch (position % 3) {
             case 0:
                 holder.mProblemIntensity.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seek_pane_color_green));
                 break;
@@ -59,7 +60,7 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
         }
     }
 
-    static class PhysicalProblemsViewHolder extends RecyclerView.ViewHolder{
+    static class PhysicalProblemsViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mProblemTitle;
         private TextView mProblemDescription;
@@ -73,6 +74,8 @@ public class PhysicalProblemsAdapter extends BaseRecyclerCursorAdapter<PhysicalP
             mProblemIntensity = (AppCompatSeekBar) itemView.findViewById(R.id.seek_intensity);
 
             // make it not respond to touch events without change the stle to not active
+            // a lazy way to solve it without acutally setting styles for the disabled view.
+            // and more effective across different android APIs
             mProblemIntensity.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

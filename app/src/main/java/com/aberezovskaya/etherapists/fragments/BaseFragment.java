@@ -19,6 +19,7 @@ public class BaseFragment extends Fragment {
     /**
      * Return the "target" for this fragment of specified type. By default target is activity that owns
      * current fragment but also could be any fragment.
+     *
      * @param clazz requested callback interface
      * @return requested callback or null if no callback of requested type is found
      */
@@ -26,9 +27,9 @@ public class BaseFragment extends Fragment {
 
         Object[] targets = new Object[]{getTargetFragment(), getParentFragment(), getActivity()};
 
-        for(Object target : targets) {
+        for (Object target : targets) {
 
-            if( (null != target) && (clazz.isInstance(target)) ) {
+            if ((null != target) && (clazz.isInstance(target))) {
 
                 return clazz.cast(target);
             }

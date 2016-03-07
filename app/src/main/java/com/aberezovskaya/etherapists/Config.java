@@ -6,7 +6,7 @@ import com.aberezovskaya.etherapists.daos.Exercise;
 import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.daos.Training;
 
-import com.aberezovskaya.etherapists.model.BodyPartEnum;
+import com.aberezovskaya.etherapists.model.BodyParts;
 
 
 public class Config {
@@ -22,11 +22,11 @@ public class Config {
      */
 
     public static final BodyPart[] PARTS_OF_BODY_LIST = new BodyPart[]{
-            new BodyPart(1L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.HEAD),
-            new BodyPart(2L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.NECK),
-            new BodyPart(3L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.SHOULDER_LEFT),
-            new BodyPart(4L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.SHOULDER_RIGHT),
-            new BodyPart(5L, System.currentTimeMillis(), System.currentTimeMillis(), BodyPartEnum.BACK),
+            new BodyPart(1L, System.currentTimeMillis(), System.currentTimeMillis(), BodyParts.HEAD),
+            new BodyPart(2L, System.currentTimeMillis(), System.currentTimeMillis(), BodyParts.NECK),
+            new BodyPart(3L, System.currentTimeMillis(), System.currentTimeMillis(), BodyParts.SHOULDER_LEFT),
+            new BodyPart(4L, System.currentTimeMillis(), System.currentTimeMillis(), BodyParts.SHOULDER_RIGHT),
+            new BodyPart(5L, System.currentTimeMillis(), System.currentTimeMillis(), BodyParts.BACK),
     };
 
     public static final BodyProblem[] PREDEFINED_BODY_PROBLEM = new BodyProblem[]{

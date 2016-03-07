@@ -1,12 +1,12 @@
 package com.aberezovskaya.etherapists.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        import android.os.Bundle;
+        import android.support.annotation.Nullable;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
 
-import com.aberezovskaya.etherapists.R;
+        import com.aberezovskaya.etherapists.R;
 
 /**
  * Stub Fragment for empty tabs

@@ -1,9 +1,7 @@
 package com.aberezovskaya.etherapists.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -17,7 +15,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.adapters.BaseRecyclerCursorAdapter;
 import com.aberezovskaya.etherapists.fragments.BaseFragment;
 import com.aberezovskaya.etherapists.fragments.CoachingFragment;
 import com.aberezovskaya.etherapists.fragments.PhysicalProblemsFragment;
@@ -100,17 +97,19 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * variables
+     */
     private TabLayout mTabLayout;
     private FloatingActionButton mAddButton;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mAddButton = (FloatingActionButton) findViewById(R.id.btn_add);
         mAddButton.setOnClickListener(this);
@@ -121,6 +120,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         setupTabs(selectedFragment);
     }
 
+    /**
+     * seting  up the tabs layout,
+     * and restores the last selected tab (if it exists),
+     * since the TabLayout does not restore it automatically
+     *
+     * @param selectedTab - last selected tab
+     *                    to reselect after screen orientation change
+     */
     private void setupTabs(String selectedTab) {
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -151,14 +158,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.mental).setTag(Fragments.TAB_MENTAL));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.scores).setTag(Fragments.TAB_SCORES));
 
+
         int tabCount = mTabLayout.getTabCount();
         if (!TextUtils.isEmpty(selectedTab)) {
             Fragments selectedFragment = Fragments.findFragmentByTag(selectedTab);
             if (selectedFragment != null) {
                 for (int i = 0; i < tabCount; i++) {
                     TabLayout.Tab tab = mTabLayout.getTabAt(i);
-                    if (tab != null && tab.getTag() != null){
-                        if ((tab.getTag()).equals(selectedFragment)){
+                    if (tab != null && tab.getTag() != null) {
+                        if ((tab.getTag()).equals(selectedFragment)) {
                             tab.select();
                         }
                     }
@@ -185,6 +193,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         ft.commit();
     }
 
+    /**
+     * This method is called on tab selection
+     * floating action button can
+     * be shown and work correctly (on scrolling)
+     * only within the main acitivty layout
+     * So, we just make it invisible,
+     * if it's unnecessary, when wrong fragment is
+     * displayed
+     *
+     * @param fragments - currently displayed fragment
+     */
     private void setupAddButton(Fragments fragments) {
         if (fragments.equals(Fragments.TAB_BODY)) {
             mAddButton.setVisibility(View.VISIBLE);

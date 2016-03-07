@@ -27,17 +27,22 @@ import rx.Subscriber;
  */
 public class CoachingFragment extends BaseFragment {
 
-    private static final int EXERCISES_LOADER_ID = 0;
+    /**
+     * consts
+     */
+
+    // constant to define exercises per day amount
     private static final int EXERCISES_PER_DAY = 5;
+
+    // constant for caching the load task subscription
     private static final String KEY_LOAD_TASK = "load_task";
-
-    private ObservableLoader<Cursor> mLoader;
-
 
     /**
      * variables
      */
+    private ObservableLoader<Cursor> mLoader;
     private CoachingAdapter mAdapter;
+
 
     @Nullable
     @Override
@@ -63,10 +68,20 @@ public class CoachingFragment extends BaseFragment {
     }
 
 
+    /*
+    ORDER BY RAND() - has really bad performance on
+    a big tables.
+    That's why another approach was used. The table of
+    exercises is potentially big
+     */
+
     protected Observable<Cursor> getLoadObservable() {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
+                // retirieve the trainings suitable for
+                // show in accordance with the user's body problems
+                // see  DataContentProbvider SQL_DAILY_TRAININGS
                 Cursor trainingsCursor = getContext().getContentResolver().query(DataContract.Training.DAILY_TRAININGS_CONTENT_URI,
                         null, null, null, null);
 
@@ -75,13 +90,21 @@ public class CoachingFragment extends BaseFragment {
 
                     if (count > 0) {
 
+                        // retrieve max 5 exercises
+                        // from the exercise table
+                        // which id
+                        // contains in the
+                        // trainings returned by the previous query
+
                         int exLimit = Math.min(count, EXERCISES_PER_DAY);
-                        int[] exerciseIds = new int[exLimit];
                         StringBuilder selection = new StringBuilder();
                         selection.append(DataContract.Exercise.COLUMN_ID);
                         selection.append(" IN (");
                         String[] selectionArgs = new String[exLimit];
 
+                        // The seed of the random may be used
+                        // to show the same exercises all the day
+                        // the number of day in a year should be used
                         Random rand = new Random(System.currentTimeMillis());
 
                         for (int i = 0; i < exLimit; i++) {
@@ -100,7 +123,8 @@ public class CoachingFragment extends BaseFragment {
                         if (exercises != null) {
                             subscriber.onNext(exercises);
                             subscriber.onCompleted();
-                        } {
+                        }
+                        {
                             subscriber.onError(new SQLiteException());
                         }
                     }
@@ -116,7 +140,6 @@ public class CoachingFragment extends BaseFragment {
         super.onPause();
         mLoader.unsubscribeLoaderTask(false);
     }
-
 
 
     private Observer<Cursor> mExercisesLoadingObesriver = new Observer<Cursor>() {

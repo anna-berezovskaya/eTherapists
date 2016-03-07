@@ -4,6 +4,11 @@ import android.app.Application;
 
 import com.aberezovskaya.etherapists.utils.ObservableCache;
 
+/**
+ * main app class
+ * provides app instance
+ * and holds observable cache instance
+ */
 public class App extends Application {
 
     private static App sInstance = null;

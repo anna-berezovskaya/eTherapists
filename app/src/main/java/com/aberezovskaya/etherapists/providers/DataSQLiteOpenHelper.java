@@ -15,23 +15,23 @@ import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.daos.Training;
 
 /**
- *  SQLiteOpenHelper class to manage
- *  database creation
- *  and opening.
- *
- *  For the test project, the database is not
- *  very necessary, cause we can use
- *  a small amount of static test data
- *
- *  But for the real project such kind of database,
- *  containing exercises for different physical problems,
- *  and, possibly, some another info in future,
- *  would be useful
+ * SQLiteOpenHelper class to manage
+ * database creation
+ * and opening.
+ * <p/>
+ * For the test project, the database is not
+ * very necessary, cause we can use
+ * a small amount of static test data
+ * <p/>
+ * But for the real project such kind of database,
+ * containing exercises for different physical problems,
+ * and, possibly, some another info in future,
+ * would be useful
  */
 public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
     /*
-	 * consts
+     * consts
 	 */
     private final static int DB_VERSION = 1;
     private final static String DB_NAME = "eTherapists_data.db";
@@ -51,7 +51,8 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
     /**
      * automatically thread-safe
-     * @return
+     *
+     * @return helper instance
      */
     public static DataSQLiteOpenHelper instance() {
         return LazyHolder.sInstance;
@@ -60,7 +61,6 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // BodyProblem table
         db.execSQL("CREATE TABLE " + DataContract.Tables.BODY_PROBLEM + " ( " +
                 DataContract.BodyProblem.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataContract.BodyProblem.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
@@ -73,7 +73,7 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.BodyPart.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataContract.BodyPart.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
                 DataContract.BodyPart.COLUMN_MODIFY_DATE + " INTEGER NOT NULL, " +
-                DataContract.BodyPart.COLUMN_NAME+ " TEXT NOT NULL" +
+                DataContract.BodyPart.COLUMN_NAME + " TEXT NOT NULL" +
                 ");");
 
         db.execSQL("CREATE TABLE " + DataContract.Tables.PHYSICAL_PROBLEM + " ( " +
@@ -84,7 +84,6 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.PhysicalProblem.COLUMN_INTENSITY + " INTEGER " +
                 ");");
 
-        //Exercise table
         db.execSQL("CREATE TABLE " + DataContract.Tables.EXERCISE + " ( " +
                 DataContract.Exercise.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataContract.Exercise.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
@@ -94,7 +93,6 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
                 DataContract.Exercise.COLUMN_DURATION + " INTEGER" +
                 ");");
 
-        //Trainings table
         db.execSQL("CREATE TABLE " + DataContract.Tables.TRAINING + " ( " +
                 DataContract.Training.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataContract.Training.COLUMN_CREATE_DATE + " INTEGER NOT NULL, " +
@@ -105,7 +103,7 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
 
         ContentValues cv = new ContentValues();
-        for(BodyProblem problem: Config.PREDEFINED_BODY_PROBLEM) {
+        for (BodyProblem problem : Config.PREDEFINED_BODY_PROBLEM) {
 
             cv.clear();
             BaseEntity.prepareForInsert(problem.toContentValues(cv));
@@ -124,12 +122,12 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
             db.insert(DataContract.Tables.TRAINING, null, cv);
         }
 
-        for (Exercise exercise : Config.PREDEFINED_EXERCISES){
+        for (Exercise exercise : Config.PREDEFINED_EXERCISES) {
             cv.clear();
             BaseEntity.prepareForInsert(exercise.toContentValues(cv));
             db.insert(DataContract.Tables.EXERCISE, null, cv);
         }
-        for (PhysicalProblem problem : Config.PREDEFINED_PHYSICAL_PROBLEMS){
+        for (PhysicalProblem problem : Config.PREDEFINED_PHYSICAL_PROBLEMS) {
             cv.clear();
             BaseEntity.prepareForInsert(problem.toContentValues(cv));
             db.insert(DataContract.Tables.PHYSICAL_PROBLEM, null, cv);
@@ -138,9 +136,14 @@ public class DataSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // the lazy way of upgrade
+        // though, suitable for our
+        // situation
         db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.BODY_PROBLEM);
         db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.EXERCISE);
         db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.TRAINING);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.BODY_PART);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.Tables.PHYSICAL_PROBLEM);
 
         onCreate(db);
     }

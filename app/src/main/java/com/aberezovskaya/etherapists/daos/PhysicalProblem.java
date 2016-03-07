@@ -3,9 +3,11 @@ package com.aberezovskaya.etherapists.daos;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import com.aberezovskaya.etherapists.providers.DataContract;
 
+/**
+ * physcial problem daos object
+ */
 public class PhysicalProblem extends BaseEntity<PhysicalProblem> {
 
     private long mBodyProblemId = -1;

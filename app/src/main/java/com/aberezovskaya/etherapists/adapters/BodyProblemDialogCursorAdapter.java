@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
 import com.aberezovskaya.etherapists.R;
-import com.aberezovskaya.etherapists.daos.BodyProblem;
-import com.aberezovskaya.etherapists.daos.PhysicalProblem;
 import com.aberezovskaya.etherapists.providers.DataContract;
 
 public class BodyProblemDialogCursorAdapter extends CursorAdapter {
@@ -42,12 +40,12 @@ public class BodyProblemDialogCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder)view.getTag();
+        BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder) view.getTag();
         holder.mCheckedTextView.setText(cursor.getString(cursor.getColumnIndex(DataContract.BodyProblem.COLUMN_DESCRIPTION)));
 
     }
 
-    static class BodyProblemDialogViewHolder{
+    static class BodyProblemDialogViewHolder {
 
         private CheckedTextView mCheckedTextView;
 
