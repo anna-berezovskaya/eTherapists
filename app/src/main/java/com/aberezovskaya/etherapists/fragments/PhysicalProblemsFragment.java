@@ -4,9 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,8 +16,6 @@ import com.aberezovskaya.etherapists.providers.DataContract;
 import com.aberezovskaya.etherapists.utils.ObservableLoader;
 import com.aberezovskaya.etherapists.utils.VerticalSpacingItemDecorator;
 
-import java.util.Random;
-
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -29,15 +24,17 @@ import rx.Subscriber;
 /**
  * Fragment to manage currently selected physical problems
  */
-public class PhysicalProblemsFragment extends BaseFragment  {
+public class PhysicalProblemsFragment extends BaseFragment {
 
 
     /**
-     * loader id
+     * consts
      */
     private static final String KEY_PH_PROBLEMS_LOADING_TASK = "physical_problem_task";
 
-    private RecyclerView mRecycler;
+    /**
+     * variables
+     */
     private PhysicalProblemsAdapter mAdapter;
     private ObservableLoader<Cursor> mLoader;
 
@@ -50,13 +47,13 @@ public class PhysicalProblemsFragment extends BaseFragment  {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecycler = (RecyclerView) view.findViewById(R.id.rc_problems);
+        RecyclerView recycler = (RecyclerView) view.findViewById(R.id.rc_problems);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
-        mRecycler.setLayoutManager(manager);
-        mRecycler.addItemDecoration(new VerticalSpacingItemDecorator(getActivity(), (int) getResources().getDimension(R.dimen.rc_item_spacing)));
+        recycler.setLayoutManager(manager);
+        recycler.addItemDecoration(new VerticalSpacingItemDecorator(getActivity(), (int) getResources().getDimension(R.dimen.rc_item_spacing)));
         mAdapter = new PhysicalProblemsAdapter(getActivity());
-        mRecycler.setAdapter(mAdapter);
+        recycler.setAdapter(mAdapter);
         mLoader = new ObservableLoader<>(getLoadObservable(), mProblemsObserver);
     }
 
@@ -77,7 +74,7 @@ public class PhysicalProblemsFragment extends BaseFragment  {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
                 Cursor cursor = getContext().getContentResolver().query(DataContract.PhysicalProblem.JOIN_CONTENT_URI, null, null, null, null);
-                if (cursor != null){
+                if (cursor != null) {
                     subscriber.onNext(cursor);
                     subscriber.onCompleted();
                 } else {

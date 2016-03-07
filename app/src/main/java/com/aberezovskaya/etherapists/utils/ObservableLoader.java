@@ -8,7 +8,8 @@ import rx.Subscription;
 import rx.functions.Func0;
 
 /**
- * Created by aberezovskaya on 06.03.2016.
+ * Loader class based on rx.Observable
+ * with the caching
  */
 public class ObservableLoader<T> {
 

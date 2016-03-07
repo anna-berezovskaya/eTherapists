@@ -12,7 +12,7 @@ public class DataContract {
     /**
      * authority
      */
-    public static final String AUTHORITY =  "com.aberezovskaya.etherapists.eTherapistsDataProvider";
+    public static final String AUTHORITY = "com.aberezovskaya.etherapists.eTherapistsDataProvider";
 
     /**
      * content uri
@@ -40,13 +40,13 @@ public class DataContract {
      * physical problem
      * concrete user problem
      */
-    public interface PhysicalProblem extends BaseEntityColumns{
+    public interface PhysicalProblem extends BaseEntityColumns {
         public static final String CONTENT_PATH = "physical_problem";
         public static final String JOIN_CONTENT_PATH = "physical_problem_join_bp";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, CONTENT_PATH);
         public static final Uri JOIN_CONTENT_URI = Uri.withAppendedPath(DataContract.CONTENT_URI, JOIN_CONTENT_PATH);
-        public final static String COLUMN_BODY_PROBLEM= "body_problem";
+        public final static String COLUMN_BODY_PROBLEM = "body_problem";
         public final static String COLUMN_INTENSITY = "intensity";
     }
 
