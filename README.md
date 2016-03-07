@@ -55,6 +55,23 @@ will give the same sequence for the same seed). For now this is not implemented.
 Since the table of exercises may be big, another approach was used. (the IN {ids}, the list of suitable ids defined before )
 
 
+<b>6. Body View fragment</b>
+Since the picture of the body view is not big and we don't have requirements to show
+the click-responce or scale the image, I used the most simple way to solve the problem of clickable areas.
+I've made another "map" picture, where every area has another color, and simply put it on the top of the 
+body picture (which I merged from pieces provided).
+I'm retrieving the click coords, convert it to the colored bitmap coords (which resised together with the original
+image by the android system)
+and than detect the area of click.
+
+For the bigger images, or images with high requirements for scaling on touch or visual click responce
+the custom view with several bitmaps can be used.
+But this component requires more time to develop.
+
+Thank you and feel free to ask any questions,
+Anna Berezovskaya
+
+
 
 
 
