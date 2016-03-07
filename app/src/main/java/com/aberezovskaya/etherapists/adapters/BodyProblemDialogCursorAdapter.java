@@ -42,12 +42,12 @@ public class BodyProblemDialogCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder)view.getTag();
+        BodyProblemDialogViewHolder holder = (BodyProblemDialogViewHolder) view.getTag();
         holder.mCheckedTextView.setText(cursor.getString(cursor.getColumnIndex(DataContract.BodyProblem.COLUMN_DESCRIPTION)));
 
     }
 
-    static class BodyProblemDialogViewHolder{
+    static class BodyProblemDialogViewHolder {
 
         private CheckedTextView mCheckedTextView;
 

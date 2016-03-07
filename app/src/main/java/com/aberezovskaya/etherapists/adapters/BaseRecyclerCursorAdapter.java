@@ -5,7 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 
-
+/**
+ * Parent class for the recycler view to work
+ * with the cursor directly (to avoid of a big arrays allocation)
+ * @param <VH> - View holder type
+ */
 public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter< VH>{
 
     private Cursor mCursor;
@@ -33,6 +37,16 @@ public abstract class BaseRecyclerCursorAdapter<VH extends RecyclerView.ViewHold
             return 0;
         }
     }
+
+    // close cursor when not using it anymore
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (mCursor != null && !mCursor.isClosed()){
+            mCursor.close();
+        }
+    }
+
 
     protected Context getContext(){
         return mContext;
