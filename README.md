@@ -1,6 +1,6 @@
 # eTherapists
 
-This is the eThrapists test app created by Anna Berezovskaya. Please, read the following file before starting.
+This is the eTherapists test app created by Anna Berezovskaya. Please, read the following file before starting.
 
 <b>1. Database Structure</b>
 Simplified implementation of Database was created to serve the app's needs. There are several tables:
@@ -33,7 +33,7 @@ and easy to use with any screen density.
 <b>3.Screen orientation </b>
 Landscape orientation is not blocked (since this is not a good practice according to Google). But the app UI,
 according to mockups, designed mostly for the portrait orientation. It will be displayed 'as-is' in landscape, no
-alternate resources provided</d>
+alternate resources provided
 
 <b>4. Home Screen</b
 I didn't get from mockup, how actually the home screen should look. Since the Splash Activity, according to Google, is not 
