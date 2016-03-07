@@ -54,7 +54,7 @@ according to mockups, designed mostly for the portrait orientation. It will be d
 alternate resources provided
 
 <b>4. Home Screen</b>
-I didn't get from mockup, how actually the home screen should look. Since the Splash Activity, according to Google, is not 
+I didn't get from mockup, how actually the home screen should look. Since the Splash Activity, according to Google guidelines, is not 
 android best practice (I mean useless splash activity, which does not process any actions, but just
 displaying an information), I've just implemented the paralax effect on the Application Bar scrolling, which is the most
 close to the Home sceen Mockup.
