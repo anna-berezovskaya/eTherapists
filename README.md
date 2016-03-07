@@ -35,7 +35,7 @@ Landscape orientation is not blocked (since this is not a good practice accordin
 according to mockups, designed mostly for the portrait orientation. It will be displayed 'as-is' in landscape, no
 alternate resources provided
 
-<b>4. Home Screen</b
+<b>4. Home Screen</b>
 I didn't get from mockup, how actually the home screen should look. Since the Splash Activity, according to Google, is not 
 android best practice (I mean useless splash activity, which does not process any actions, but just
 displaying an information), I've just implemented the paralax effect on the Application Bar scrolling, which is the most
