@@ -49,7 +49,7 @@ Instead of it, VectorDrawables, introduced in API 21 may be used to represent a 
 and easy to use with any screen density.
 
 <b>3.Screen orientation </b>
-Landscape orientation is not blocked (since this is not a good practice according to Google). But the app UI,
+Landscape orientation is not blocked (since this is not a good practice according to Google guidelines). But the app UI,
 according to mockups, designed mostly for the portrait orientation. It will be displayed 'as-is' in landscape, no
 alternate resources provided
 
