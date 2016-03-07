@@ -2,25 +2,39 @@
 
 This is the eTherapists test app created by Anna Berezovskaya. Please, read the following file before starting.
 
+<b>Libraries used</b>
+
+- rx.Observable Java and android library to build a loader with the ability of datacaching and intergrated into the 
+activity lifecycle.
+- Picasso library to load the picture into the items of RecyclerView. 
+
+All the libraries are declared in build.gradle file as a dependencies and don't require additional 
+actions to include into the project.
+
+compile 'io.reactivex:rxjava:1.0.8'
+compile 'io.reactivex:rxandroid:0.24.0'
+compile 'com.squareup.picasso:picasso:2.5.2'
+
+
 <b>1. Database Structure</b>
 Simplified implementation of Database was created to serve the app's needs. There are several tables:
 -BodyPart  -  represents the part of body and contains the name and id.
 
--Physical Problem - represens the physical problem, selected by user. Unlike a body problem - which is just possible
-problem that may happen - physical problem was added by the app user like actual problem. It contains appropriate body_problem id and 
-the intensity level;
+- Physical Problem - represens the physical problem, selected by user. Unlike a body problem - which is just possible
+problem that may happen - physical problem was added by the app user like actual problem.
+It contains appropriate body_problem id and the intensity level;
 
--Body Problem  - represents possible problem for user to be selected. This is potential problem user can see in a list
+- Body Problem  - represents possible problem for user to be selected. This is potential problem user can see in a list
 on the "add problem" dialog. When the intensity and problem selected, the new Physical Problem will be added to database.
 
--Training  - contains id of body problem and exercise to solve it. Introduced just for decomposition of many-to-many relationship
-between the body problem and exercise essenses. (On problem can be solved with different ways, but one exercise can solve
-a lot of problems as well)
+- Training  - contains id of body problem and exercise to solve it. Introduced just for decomposition 
+of many-to-many relationship between the body problem and exercise essenses. 
+(On problem can be solved with different ways, but one exercise can solve a lot of problems as well)
 
 -Exercise - represents exercise - contains title, picture (name of pic in predefined folder in assets) and duration.
 
 
-<d> 2. Comments on resources </b>
+<b> 2. Comments on resources </b>
 After exploring the assets folder I supposed, that resources provided were selected for the xhdpi density. 
 It's too small to be xxhdpi, but it's unnecessary to put the image resources under the less resolution as well.
 Android will scale resources on the higher density screen, what may influence on user's feeling from application. 
