@@ -18,7 +18,8 @@ compile 'com.squareup.picasso:picasso:2.5.2'
 
 <b>1. Database Structure</b>
 Simplified implementation of Database was created to serve the app's needs. There are several tables:
--BodyPart  -  represents the part of body and contains the name and id.
+
+- BodyPart  -  represents the part of body and contains the name and id.
 
 - Physical Problem - represens the physical problem, selected by user. Unlike a body problem - which is just possible
 problem that may happen - physical problem was added by the app user like actual problem.
