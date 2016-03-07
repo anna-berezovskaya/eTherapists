@@ -32,7 +32,9 @@ on the "add problem" dialog. When the intensity and problem selected, the new Ph
 of many-to-many relationship between the body problem and exercise essenses. 
 (On problem can be solved with different ways, but one exercise can solve a lot of problems as well)
 
--Exercise - represents exercise - contains title, picture (name of pic in predefined folder in assets) and duration.
+- Exercise - represents exercise - contains title, picture (name of pic in predefined folder in assets) and duration.
+
+Database scheme.png can be found in the root of the project
 
 
 <b> 2. Comments on resources </b>
